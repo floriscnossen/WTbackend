@@ -15,7 +15,11 @@ public class Book {
 
     @Column(nullable=false)
     private String title;
-    private String author;
+
+    @ManyToOne
+    @JoinColumn(nullable = false, name = "author_id")
+    private Author author;
+
     private String description;
     @ManyToMany
     @JoinTable(name= "Book_Tags")
@@ -37,7 +41,7 @@ public class Book {
     }
 
     public Book(String title,
-                String author,
+                Author author,
                 String description,
                 Set<Tag> tags,
                 Date releaseDate,
@@ -81,11 +85,11 @@ public class Book {
         this.title = title;
     }
 
-    public String getAuthor() {
+    public Author getAuthor() {
         return author;
     }
 
-    public void setAuthor(String author) {
+    public void setAuthor(Author author) {
         this.author = author;
     }
 

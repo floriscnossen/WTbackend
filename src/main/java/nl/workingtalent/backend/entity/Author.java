@@ -1,12 +1,9 @@
 package nl.workingtalent.backend.entity;
 
 import java.util.Date;
+import java.util.Set;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 @Entity
 public class Author {
@@ -23,6 +20,9 @@ public class Author {
 	
 	@Column(nullable=true, length = 100)
 	private String nationality;
+
+	@OneToMany(mappedBy = "author")
+	private Set<Book> books;
 	
 	public long getId() {
 		return id;
