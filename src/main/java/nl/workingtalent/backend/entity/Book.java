@@ -102,11 +102,11 @@ public class Book {
     }
 
     public String getIsbnNumber() {
-        return IsbnNumber;
+        return isbnNumber;
     }
 
     public void setIsbnNumber(String isbnNumber) {
-        IsbnNumber = isbnNumber;
+        this.isbnNumber = isbnNumber;
     }
 
     public String getPublisher() {
