@@ -11,6 +11,6 @@ import nl.workingtalent.backend.entity.User;
 @Repository
 public interface IUserRepository extends JpaRepository<User, Long> {
 	
-	@Query("SELECT u FROM User u WHERE u.name =?1")
-	Optional<User> getUserByName(String name);
+//	@Query("SELECT u FROM User u WHERE u.name =?1")
+//	Optional<User> getUserByName(String name);
 }
