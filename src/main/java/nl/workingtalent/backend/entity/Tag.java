@@ -2,6 +2,8 @@ package nl.workingtalent.backend.entity;
 
 import jakarta.persistence.*;
 
+import java.util.Set;
+
 @Entity
 @Table(name = "Tag")
 public class Tag {
@@ -13,6 +15,8 @@ public class Tag {
     @Column(nullable = false, length = 100)
     private String name;
 
+    @ManyToMany
+    private Set<Book> books;
 
     //Constructors
     public Tag() {
