@@ -6,10 +6,10 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
-import nl.workingtalent.backend.entity.User;
+import nl.workingtalent.backend.entity.Copy;
 
 @Repository
-public interface IUserRepository extends JpaRepository<User, Long> {
+public interface CopyRepository extends JpaRepository<Copy, Long> {
 	
 //	@Query("SELECT u FROM User u WHERE u.name =?1")
 //	Optional<User> getUserByName(String name);

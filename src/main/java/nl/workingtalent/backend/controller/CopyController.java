@@ -7,13 +7,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import nl.workingtalent.backend.entity.User;
-import nl.workingtalent.backend.service.UserService;
+import nl.workingtalent.backend.entity.Author;
+import nl.workingtalent.backend.service.AuthorService;
 
 @RestController
-@RequestMapping(path = "user")
-public class UserController {
+@RequestMapping(path = "copy")
+public class CopyController {
 	@Autowired
-	UserService us;
-	
+	AuthorService cs;
+
 }

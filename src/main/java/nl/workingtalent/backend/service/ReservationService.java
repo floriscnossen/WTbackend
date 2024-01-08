@@ -5,13 +5,13 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import nl.workingtalent.backend.entity.User;
-import nl.workingtalent.backend.repository.UserRepository;
+import nl.workingtalent.backend.entity.Reservation;
+import nl.workingtalent.backend.repository.ReservationRepository;
 
 @Service
-public class UserService {
+public class ReservationService {
 	//Has a relatie
 	@Autowired    //dependency injection
-	UserRepository ur;
-
+	ReservationRepository rr;
+	
 }
