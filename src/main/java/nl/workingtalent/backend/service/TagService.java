@@ -13,7 +13,4 @@ public class TagService {
     @Autowired    //dependency injection
     TagRepository tr;
 
-    public List<Tag> getTags() {
-        return tr.findAll();
-    }
 }
