@@ -32,6 +32,10 @@ public class Book {
 //    TODO: voor de implementatie hiervan hebben we een Course class nodig. Dit komt evtl. later.
     private String relatedCourses;
     private String format;
+    
+    @OneToMany(mappedBy = "book")
+    private Set<Copy> copies;
+  
     private String info;
     private String rating;
     private String edition;
