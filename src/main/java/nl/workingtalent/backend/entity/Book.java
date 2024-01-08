@@ -21,7 +21,7 @@ public class Book {
     @ManyToMany
     private Set<Tag> tags;
     private Date releaseDate;
-    private String IsbnNumber;
+    private String isbnNumber;
     private String publisher;
     private String format;
 
@@ -36,7 +36,7 @@ public class Book {
         this.description = description;
         this.tags = tags;
         this.releaseDate = releaseDate;
-        IsbnNumber = isbnNumber;
+        this.isbnNumber = isbnNumber;
         this.publisher = publisher;
     }
 
@@ -47,7 +47,7 @@ public class Book {
         this.description = description;
         this.tags = tags;
         this.releaseDate = releaseDate;
-        IsbnNumber = isbnNumber;
+        this.isbnNumber = isbnNumber;
         this.publisher = publisher;
         this.format = format;
     }
