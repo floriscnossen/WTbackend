@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 
 import java.lang.reflect.Array;
 import java.util.Date;
+import java.util.Set;
 
 @Entity
 @Table(name = "Book")
@@ -17,7 +18,8 @@ public class Book {
     private String title;
     private String author;
     private String description;
-    //private String[] tags;
+    @ManyToMany
+    private Set<Tag> tags;
     private Date releaseDate;
     private String IsbnNumber;
     private String publisher;
