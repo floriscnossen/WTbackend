@@ -25,6 +25,32 @@ public class Book {
     private String publisher;
     private String format;
 
+    public Book() {
+        //Empty constructor
+    }
+
+    public Book(String title, String author, String description, Set<Tag> tags, Date releaseDate, String isbnNumber, String publisher) {
+        //Constructor with all properties except format
+        this.title = title;
+        this.author = author;
+        this.description = description;
+        this.tags = tags;
+        this.releaseDate = releaseDate;
+        IsbnNumber = isbnNumber;
+        this.publisher = publisher;
+    }
+
+    public Book(String title, String author, String description, Set<Tag> tags, Date releaseDate, String isbnNumber, String publisher, String format) {
+        //Full constructor
+        this.title = title;
+        this.author = author;
+        this.description = description;
+        this.tags = tags;
+        this.releaseDate = releaseDate;
+        IsbnNumber = isbnNumber;
+        this.publisher = publisher;
+        this.format = format;
+    }
 
     //Getters & Setters
     public void setId(Long id) {
