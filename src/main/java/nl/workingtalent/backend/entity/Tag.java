@@ -18,11 +18,12 @@ public class Tag {
     @ManyToMany
     private Set<Book> books;
 
-    //Constructors
     public Tag() {
+        //Empty constructor
     }
 
     public Tag(String name) {
+        //Constructor with name
         this.name = name;
     }
 
