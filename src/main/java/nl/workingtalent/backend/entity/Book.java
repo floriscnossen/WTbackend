@@ -20,6 +20,9 @@ public class Book {
     @JoinColumn(nullable = false, name = "author_id")
     private Author author;
 
+    @OneToMany(mappedBy = "book")
+    private Set<Copy> copy;
+
     private String description;
     @ManyToMany
     @JoinTable(name= "Book_Tags")
