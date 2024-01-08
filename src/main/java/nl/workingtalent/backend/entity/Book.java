@@ -2,7 +2,6 @@ package nl.workingtalent.backend.entity;
 
 import jakarta.persistence.*;
 
-import java.lang.reflect.Array;
 import java.util.Date;
 import java.util.Set;
 
@@ -24,14 +23,32 @@ public class Book {
     private Date releaseDate;
     private String isbnNumber;
     private String publisher;
+    private Integer pageCount;
+
+//    TODO: voor de implementatie hiervan hebben we een Course class nodig. Dit komt evtl. later.
+    private String relatedCourses;
     private String format;
+    private String info;
+    private String rating;
+    private String edition;
 
     public Book() {
         //Empty constructor
     }
 
-    public Book(String title, String author, String description, Set<Tag> tags, Date releaseDate, String isbnNumber, String publisher) {
-        //Constructor with all properties except format
+    public Book(String title,
+                String author,
+                String description,
+                Set<Tag> tags,
+                Date releaseDate,
+                String isbnNumber,
+                String publisher,
+                Integer pageCount,
+                String relatedCourses,
+                String format,
+                String info,
+                String rating,
+                String edition) {
         this.title = title;
         this.author = author;
         this.description = description;
@@ -39,18 +56,12 @@ public class Book {
         this.releaseDate = releaseDate;
         this.isbnNumber = isbnNumber;
         this.publisher = publisher;
-    }
-
-    public Book(String title, String author, String description, Set<Tag> tags, Date releaseDate, String isbnNumber, String publisher, String format) {
-        //Full constructor
-        this.title = title;
-        this.author = author;
-        this.description = description;
-        this.tags = tags;
-        this.releaseDate = releaseDate;
-        this.isbnNumber = isbnNumber;
-        this.publisher = publisher;
+        this.pageCount = pageCount;
+        this.relatedCourses = relatedCourses;
         this.format = format;
+        this.info = info;
+        this.rating = rating;
+        this.edition = edition;
     }
 
     //Getters & Setters
@@ -124,5 +135,45 @@ public class Book {
 
     public void setFormat(String format) {
         this.format = format;
+    }
+
+    public Integer getPageCount() {
+        return pageCount;
+    }
+
+    public void setPageCount(Integer pageCount) {
+        this.pageCount = pageCount;
+    }
+
+    public String getRelatedCourses() {
+        return relatedCourses;
+    }
+
+    public void setRelatedCourses(String relatedCourses) {
+        this.relatedCourses = relatedCourses;
+    }
+
+    public String getInfo() {
+        return info;
+    }
+
+    public void setInfo(String info) {
+        this.info = info;
+    }
+
+    public String getRating() {
+        return rating;
+    }
+
+    public void setRating(String rating) {
+        this.rating = rating;
+    }
+
+    public String getEdition() {
+        return edition;
+    }
+
+    public void setEdition(String edition) {
+        this.edition = edition;
     }
 }
