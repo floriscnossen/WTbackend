@@ -24,6 +24,9 @@ public class Book {
     private String isbnNumber;
     private String publisher;
     private String format;
+    
+    @OneToMany(mappedBy = "book")
+    private Set<Copy> copies;
 
     public Book() {
         //Empty constructor
