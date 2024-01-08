@@ -17,6 +17,17 @@ public class Copy {
 //	@ManyToOne
 //	@JoinColumn(name = "book_id", nullable = false)
 //	private long Book;
+	
+	@Column(nullable = false)
+	private boolean available;
+
+	public boolean isAvailable() {
+		return available;
+	}
+
+	public void setAvailable(boolean available) {
+		this.available = available;
+	}
 
 	public long getId() {
 		return id;
