@@ -19,6 +19,7 @@ public class Book {
     private String author;
     private String description;
     @ManyToMany
+    @JoinTable(name= "Book_Tags")
     private Set<Tag> tags;
     private Date releaseDate;
     private String isbnNumber;
