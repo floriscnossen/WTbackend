@@ -29,14 +29,7 @@ public class Author {
 	@OneToMany(mappedBy = "author")
 	private Set<Book> books;
 	
-	public Set<Book> getBooks() {
-		return books;
-	}
-
-	public void setBooks(Set<Book> books) {
-		this.books = books;
-	}
-
+	//Getters and setters
 	public long getId() {
 		return id;
 	}
@@ -69,5 +62,11 @@ public class Author {
 		this.nationality = nationality;
 	}
 
+	public Set<Book> getBooks() {
+		return books;
+	}
 
+	public void setBooks(Set<Book> books) {
+		this.books = books;
+	}
 }

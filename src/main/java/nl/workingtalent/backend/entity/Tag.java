@@ -4,13 +4,16 @@ import jakarta.persistence.*;
 
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 @Entity
-@Table(name = "Tag")
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Tag {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private long id;
 
     @Column(nullable = false, length = 100)
     private String name;
@@ -28,12 +31,19 @@ public class Tag {
     }
 
     //Getters and setters
+    public long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
 
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
+	public void setName(String name) {
         this.name = name;
     }
 
