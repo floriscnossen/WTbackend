@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import nl.workingtalent.backend.entity.Author;
+import nl.workingtalent.backend.entity.Book;
 import nl.workingtalent.backend.service.AuthorService;
 
 @RestController
@@ -15,5 +16,9 @@ import nl.workingtalent.backend.service.AuthorService;
 public class AuthorController {
 	@Autowired
 	AuthorService as;
-
+	
+	@GetMapping("all")
+	public List<Author> getAuthors() {
+		return as.getAuthors();
+	}
 }
