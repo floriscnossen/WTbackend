@@ -7,13 +7,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import nl.workingtalent.backend.entity.User;
-import nl.workingtalent.backend.service.UserService;
+import nl.workingtalent.backend.entity.Book;
+import nl.workingtalent.backend.service.BookService;
 
 @RestController
-@RequestMapping(path = "user")
-public class UserController {
+@RequestMapping(path = "book")
+public class BookController {
 	@Autowired
-	UserService us;
-	
+	BookService bs;
+
 }

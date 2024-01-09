@@ -1,5 +1,6 @@
 package nl.workingtalent.backend.entity;
 
+
 import jakarta.persistence.*;
 
 import java.util.Set;
@@ -16,6 +17,17 @@ public class Copy {
 
 	@OneToMany(mappedBy = "copy")
 	private Set<Reservation> reservations;
+	
+	@Column(nullable = false)
+	private boolean available;
+
+	public boolean isAvailable() {
+		return available;
+	}
+
+	public void setAvailable(boolean available) {
+		this.available = available;
+	}
 
 	public long getId() {
 		return id;
