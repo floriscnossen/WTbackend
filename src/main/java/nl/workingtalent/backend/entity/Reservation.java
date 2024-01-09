@@ -1,25 +1,23 @@
 package nl.workingtalent.backend.entity;
 
 import java.util.Date;
+import java.util.Set;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 @Entity
 public class Reservation {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
-	
-	@Column(nullable = false, length = 100)
-	private long userId;
-	
-	@Column(nullable = false, length = 100)
-	private long copyId;
-	
+
+	@ManyToOne
+	private Copy copy;
+
+	@ManyToOne
+	@JoinColumn(name = "user_id", nullable = false)
+	private User user;
+
 	@Column(nullable = false, length = 100)
 	private Date date;
 	
@@ -34,20 +32,12 @@ public class Reservation {
 		this.id = id;
 	}
 
-	public long getUserId() {
-		return userId;
+	public User getUser() {
+		return user;
 	}
 
-	public void setUserId(long userId) {
-		this.userId = userId;
-	}
-
-	public long getCopyId() {
-		return copyId;
-	}
-
-	public void setCopyId(long copyId) {
-		this.copyId = copyId;
+	public void setUserId(User user){
+		this.user = user;
 	}
 
 	public Date getDate() {

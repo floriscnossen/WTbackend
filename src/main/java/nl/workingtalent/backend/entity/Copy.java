@@ -1,13 +1,9 @@
 package nl.workingtalent.backend.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
+
+import jakarta.persistence.*;
+
+import java.util.Set;
 
 @Entity
 public class Copy {
@@ -18,6 +14,9 @@ public class Copy {
 	@ManyToOne
 	@JoinColumn(name = "book_id", nullable = false)
 	private Book book;
+
+	@OneToMany(mappedBy = "copy")
+	private Set<Reservation> reservations;
 	
 	@Column(nullable = false)
 	private boolean available;
