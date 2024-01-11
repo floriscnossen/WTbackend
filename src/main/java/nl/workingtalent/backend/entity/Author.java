@@ -3,9 +3,14 @@ package nl.workingtalent.backend.entity;
 import java.util.Date;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 import jakarta.persistence.*;
 
 @Entity
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Author {
 
 	@Id
@@ -20,10 +25,11 @@ public class Author {
 	
 	@Column(nullable=true, length = 100)
 	private String nationality;
-
+	
 	@OneToMany(mappedBy = "author")
 	private Set<Book> books;
 	
+	//Getters and setters
 	public long getId() {
 		return id;
 	}
@@ -56,5 +62,11 @@ public class Author {
 		this.nationality = nationality;
 	}
 
+	public Set<Book> getBooks() {
+		return books;
+	}
 
+	public void setBooks(Set<Book> books) {
+		this.books = books;
+	}
 }

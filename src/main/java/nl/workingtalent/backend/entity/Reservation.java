@@ -3,9 +3,13 @@ package nl.workingtalent.backend.entity;
 import java.util.Date;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 import jakarta.persistence.*;
 
 @Entity
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Reservation {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,12 +28,25 @@ public class Reservation {
 	@Column(nullable = true, length = 100)
 	private String status;
 
+	//Getters and setters
 	public long getId() {
 		return id;
 	}
 
 	public void setId(long id) {
 		this.id = id;
+	}
+
+	public Copy getCopy() {
+		return copy;
+	}
+
+	public void setCopy(Copy copy) {
+		this.copy = copy;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
 	}
 
 	public User getUser() {

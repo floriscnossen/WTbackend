@@ -5,13 +5,18 @@ import jakarta.persistence.*;
 import java.util.Date;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 @Entity
-@Table(name = "Book")
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Book {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private long id;
 
     @Column(nullable=false)
     private String title;
@@ -76,11 +81,11 @@ public class Book {
     }
 
     //Getters & Setters
-    public void setId(Long id) {
+    public void setId(long id) {
         this.id = id;
     }
 
-    public Long getId() {
+    public long getId() {
         return id;
     }
 
@@ -187,4 +192,20 @@ public class Book {
     public void setEdition(String edition) {
         this.edition = edition;
     }
+
+	public Set<Copy> getCopy() {
+		return copy;
+	}
+
+	public void setCopy(Set<Copy> copy) {
+		this.copy = copy;
+	}
+
+	public Set<Copy> getCopies() {
+		return copies;
+	}
+
+	public void setCopies(Set<Copy> copies) {
+		this.copies = copies;
+	}
 }
