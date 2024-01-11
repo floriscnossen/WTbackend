@@ -21,7 +21,7 @@ public class Author {
 	private String name;
 	
 	@Column(nullable = true, length = 100)
-    private Date date;
+    private int birthYear;
 	
 	@Column(nullable=true, length = 100)
 	private String nationality;
@@ -46,12 +46,12 @@ public class Author {
 		this.name = name;
 	}
 
-	public Date getDate() {
-		return date;
+	public int getBirthYear() {
+		return birthYear;
 	}
 
-	public void setDate(Date date) {
-		this.date = date;
+	public void setBirthYear(int birthYear) {
+		this.birthYear = birthYear;
 	}
 
 	public String getNationality() {
