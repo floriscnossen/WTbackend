@@ -55,6 +55,9 @@ public class LoadCsvService {
      *   'pages', 'related_courses', 'format', 'rating', edition'.
      */
     public void loadCsv() {
+    	br.deleteAll();
+    	ar.deleteAll();
+    	tr.deleteAll();
     	try {
             FileReader filereader = new FileReader(appCsvFile); 
             CSVReader csvReader = new CSVReader(filereader); 
