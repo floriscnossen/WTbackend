@@ -1,5 +1,6 @@
 package nl.workingtalent.backend.service;
 
+import java.io.File;
 import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -27,7 +28,7 @@ import nl.workingtalent.backend.repository.TagRepository;
 
 @Service
 public class LoadCsvService {
-	@Value("${APP_CSVFILE:C:\\Users\\flori\\OneDrive\\Documenten\\WorkingTalent\\Project\\data_cleaned.csv}")
+	@Value("${APP_CSVFILE:data_cleaned.csv}")
 	private String appCsvFile;
 	
 	@Autowired
@@ -54,7 +55,7 @@ public class LoadCsvService {
      *   'pages', 'related_courses', 'format', 'rating', edition'.
      */
     public void loadCsv() {
-    	try { 
+    	try {
             FileReader filereader = new FileReader(appCsvFile); 
             CSVReader csvReader = new CSVReader(filereader); 
             String[] nextRecord;
@@ -67,10 +68,8 @@ public class LoadCsvService {
             	book.setDescription(nextRecord[2]);
             	
             	ObjectMapper objectMapper = new ObjectMapper();
-            	System.out.println(nextRecord[3]);
             	String tagList = nextRecord[3];
             	tagList = tagList.replaceAll("'(?=([^\"]*[\"][^\"]*[\"])*[^\"]*$)", "\"");
-            	System.out.println(tagList);
             	List<String> tagNames = objectMapper.readValue(tagList, new TypeReference<List<String>>(){});
             	
             	List<Tag> tags = new ArrayList<>();
@@ -102,7 +101,7 @@ public class LoadCsvService {
     	else {
     		author = new Author();
     		author.setName(authorName);
-    		try { author.setBirthYear(Integer.parseInt(authorBirthYear));} catch (NumberFormatException e) {}
+    		try { author.setBirthYear((int) Float.parseFloat(authorBirthYear));} catch (NumberFormatException e) {}
     		author = ar.save(author);
     		authorMap.put(authorName, author);
     	}
