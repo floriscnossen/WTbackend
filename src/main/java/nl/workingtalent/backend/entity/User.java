@@ -30,6 +30,9 @@ public class User {
 	
 	@Column(nullable = false, length = 100)
 	private String email;
+	
+	@Column(nullable = false, length = 100)
+	private boolean admin;
 
 	//Getters and setters
 	public long getId() {
@@ -78,5 +81,13 @@ public class User {
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+
+	public boolean isAdmin() {
+		return admin;
+	}
+
+	public void setAdmin(boolean admin) {
+		this.admin = admin;
 	}
 }

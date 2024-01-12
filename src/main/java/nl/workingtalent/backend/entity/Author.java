@@ -1,7 +1,8 @@
 package nl.workingtalent.backend.entity;
 
 import java.util.Date;
-import java.util.Set;
+import java.util.List;
+import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
@@ -21,13 +22,13 @@ public class Author {
 	private String name;
 	
 	@Column(nullable = true, length = 100)
-    private Date date;
+    private int birthYear;
 	
 	@Column(nullable=true, length = 100)
 	private String nationality;
 	
 	@OneToMany(mappedBy = "author")
-	private Set<Book> books;
+	private List<Book> books;
 	
 	//Getters and setters
 	public long getId() {
@@ -46,12 +47,12 @@ public class Author {
 		this.name = name;
 	}
 
-	public Date getDate() {
-		return date;
+	public int getBirthYear() {
+		return birthYear;
 	}
 
-	public void setDate(Date date) {
-		this.date = date;
+	public void setBirthYear(int birthYear) {
+		this.birthYear = birthYear;
 	}
 
 	public String getNationality() {
@@ -62,11 +63,11 @@ public class Author {
 		this.nationality = nationality;
 	}
 
-	public Set<Book> getBooks() {
+	public List<Book> getBooks() {
 		return books;
 	}
 
-	public void setBooks(Set<Book> books) {
+	public void setBooks(List<Book> books) {
 		this.books = books;
 	}
 }
