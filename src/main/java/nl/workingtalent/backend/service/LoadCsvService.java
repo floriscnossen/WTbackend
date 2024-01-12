@@ -1,13 +1,11 @@
 package nl.workingtalent.backend.service;
 
-import java.io.File;
 import java.io.FileReader;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -15,15 +13,16 @@ import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.mysql.cj.xdevapi.JsonArray;
 import com.opencsv.CSVReader;
 
 import jakarta.annotation.PostConstruct;
 import nl.workingtalent.backend.entity.Author;
 import nl.workingtalent.backend.entity.Book;
+import nl.workingtalent.backend.entity.Copy;
 import nl.workingtalent.backend.entity.Tag;
 import nl.workingtalent.backend.repository.AuthorRepository;
 import nl.workingtalent.backend.repository.BookRepository;
+import nl.workingtalent.backend.repository.CopyRepository;
 import nl.workingtalent.backend.repository.TagRepository;
 
 @Service
@@ -39,6 +38,9 @@ public class LoadCsvService {
 	
     @Autowired
     TagRepository tr;
+	
+    @Autowired
+    CopyRepository cr;
     
 	Map<String,Author> authorMap = new HashMap<>();
 
@@ -81,11 +83,20 @@ public class LoadCsvService {
             	}
             	book.setTags(tags);
             	
-            	// TODO: release_date;
+            	book.setReleaseDate(LocalDate.parse(nextRecord[4]));
             	book.setIsbnNumber(nextRecord[5]);
-            	book.setPublisher(nextRecord[6]);
-            	// TODO: 'pages', 'related_courses', 'format', 'rating', edition'
-            	br.save(book);
+            	if (!nextRecord[6].trim().isEmpty()) { book.setPublisher(nextRecord[6]); }
+            	try { book.setPageCount((int) Float.parseFloat(nextRecord[9]));} catch (NumberFormatException e) {}
+            	if (!nextRecord[10].trim().isEmpty()) { book.setRelatedCourses(nextRecord[10]); }
+            	if (!nextRecord[11].trim().isEmpty()) { book.setFormat(nextRecord[11]); }
+            	try { book.setRating(Float.parseFloat(nextRecord[12]));} catch (NumberFormatException e) {}
+            	if (!nextRecord[13].trim().isEmpty()) { book.setEdition(nextRecord[13]); }
+            	
+            	book = br.save(book);
+            	Copy copy = new Copy();
+            	copy.setAvailable(true);
+            	copy.setBook(book);
+            	cr.save(copy);
             }
             csvReader.close();
         } 

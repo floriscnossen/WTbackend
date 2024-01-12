@@ -2,6 +2,7 @@ package nl.workingtalent.backend.entity;
 
 import jakarta.persistence.*;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -32,7 +33,7 @@ public class Book {
     @ManyToMany
     @JoinTable(name= "Book_Tags")
     private List<Tag> tags;
-    private Date releaseDate;
+    private LocalDate releaseDate;
     private String isbnNumber;
     private String publisher;
     private Integer pageCount;
@@ -45,7 +46,7 @@ public class Book {
     private List<Copy> copies;
   
     private String info;
-    private String rating;
+    private Float rating;
     private String edition;
 
     public Book() {
@@ -56,14 +57,14 @@ public class Book {
                 Author author,
                 String description,
                 List<Tag> tags,
-                Date releaseDate,
+                LocalDate releaseDate,
                 String isbnNumber,
                 String publisher,
                 Integer pageCount,
                 String relatedCourses,
                 String format,
                 String info,
-                String rating,
+                Float rating,
                 String edition) {
         this.title = title;
         this.author = author;
@@ -121,11 +122,11 @@ public class Book {
         this.tags = tags;
     }
 
-    public Date getReleaseDate() {
+    public LocalDate getReleaseDate() {
         return releaseDate;
     }
 
-    public void setReleaseDate(Date releaseDate) {
+    public void setReleaseDate(LocalDate releaseDate) {
         this.releaseDate = releaseDate;
     }
 
@@ -153,11 +154,11 @@ public class Book {
         this.format = format;
     }
 
-    public Integer getPageCount() {
+    public int getPageCount() {
         return pageCount;
     }
 
-    public void setPageCount(Integer pageCount) {
+    public void setPageCount(int pageCount) {
         this.pageCount = pageCount;
     }
 
@@ -177,11 +178,11 @@ public class Book {
         this.info = info;
     }
 
-    public String getRating() {
+    public float getRating() {
         return rating;
     }
 
-    public void setRating(String rating) {
+    public void setRating(float rating) {
         this.rating = rating;
     }
 

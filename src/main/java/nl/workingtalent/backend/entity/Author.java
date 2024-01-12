@@ -22,7 +22,7 @@ public class Author {
 	private String name;
 	
 	@Column(nullable = true, length = 100)
-    private int birthYear;
+    private Integer birthYear;
 	
 	@Column(nullable=true, length = 100)
 	private String nationality;
