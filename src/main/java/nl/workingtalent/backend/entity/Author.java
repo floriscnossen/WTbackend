@@ -1,7 +1,8 @@
 package nl.workingtalent.backend.entity;
 
 import java.util.Date;
-import java.util.Set;
+import java.util.List;
+import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
@@ -27,7 +28,7 @@ public class Author {
 	private String nationality;
 	
 	@OneToMany(mappedBy = "author")
-	private Set<Book> books;
+	private List<Book> books;
 	
 	//Getters and setters
 	public long getId() {
@@ -62,11 +63,11 @@ public class Author {
 		this.nationality = nationality;
 	}
 
-	public Set<Book> getBooks() {
+	public List<Book> getBooks() {
 		return books;
 	}
 
-	public void setBooks(Set<Book> books) {
+	public void setBooks(List<Book> books) {
 		this.books = books;
 	}
 }

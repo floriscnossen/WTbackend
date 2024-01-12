@@ -3,7 +3,7 @@ package nl.workingtalent.backend.entity;
 import jakarta.persistence.*;
 
 import java.util.Date;
-import java.util.Set;
+import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
@@ -26,12 +26,12 @@ public class Book {
     private Author author;
 
     @OneToMany(mappedBy = "book")
-    private Set<Copy> copy;
+    private List<Copy> copy;
 
     private String description;
     @ManyToMany
     @JoinTable(name= "Book_Tags")
-    private Set<Tag> tags;
+    private List<Tag> tags;
     private Date releaseDate;
     private String isbnNumber;
     private String publisher;
@@ -42,7 +42,7 @@ public class Book {
     private String format;
     
     @OneToMany(mappedBy = "book")
-    private Set<Copy> copies;
+    private List<Copy> copies;
   
     private String info;
     private String rating;
@@ -55,7 +55,7 @@ public class Book {
     public Book(String title,
                 Author author,
                 String description,
-                Set<Tag> tags,
+                List<Tag> tags,
                 Date releaseDate,
                 String isbnNumber,
                 String publisher,
@@ -80,7 +80,7 @@ public class Book {
         this.edition = edition;
     }
 
-    //Getters & Setters
+    //Getters & Listters
     public void setId(long id) {
         this.id = id;
     }
@@ -113,11 +113,11 @@ public class Book {
         this.description = description;
     }
 
-    public Set<Tag> getTags() {
+    public List<Tag> getTags() {
         return tags;
     }
 
-    public void setTags(Set<Tag> tags) {
+    public void setTags(List<Tag> tags) {
         this.tags = tags;
     }
 
@@ -193,19 +193,19 @@ public class Book {
         this.edition = edition;
     }
 
-	public Set<Copy> getCopy() {
+	public List<Copy> getCopy() {
 		return copy;
 	}
 
-	public void setCopy(Set<Copy> copy) {
+	public void setCopy(List<Copy> copy) {
 		this.copy = copy;
 	}
 
-	public Set<Copy> getCopies() {
+	public List<Copy> getCopies() {
 		return copies;
 	}
 
-	public void setCopies(Set<Copy> copies) {
+	public void setCopies(List<Copy> copies) {
 		this.copies = copies;
 	}
 }

@@ -3,7 +3,7 @@ package nl.workingtalent.backend.entity;
 
 import jakarta.persistence.*;
 
-import java.util.Set;
+import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
@@ -20,17 +20,17 @@ public class Copy {
 	private Book book;
 
 	@OneToMany(mappedBy = "copy")
-	private Set<Reservation> reservations;
+	private List<Reservation> reservations;
 	
 	@Column(nullable = false)
 	private boolean available;
 
 	//Getters and setters
-	public Set<Reservation> getReservations() {
+	public List<Reservation> getReservations() {
 		return reservations;
 	}
 
-	public void setReservations(Set<Reservation> reservations) {
+	public void setReservations(List<Reservation> reservations) {
 		this.reservations = reservations;
 	}
 
