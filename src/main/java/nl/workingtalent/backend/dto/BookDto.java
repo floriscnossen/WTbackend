@@ -13,13 +13,13 @@ public class BookDto {
     private LocalDate releaseDate;
     private String isbnNumber;
     private String publisher;
-    private Integer pageCount;
+    private int pageCount;
 //    TODO: voor de implementatie hiervan hebben we een Course class nodig. Dit komt evtl. later.
     private String relatedCourses;
     private String format;
     private List<Long> copies;
     private String info;
-    private Float rating;
+    private float rating;
     private String edition;
 
     //Getters & Listters

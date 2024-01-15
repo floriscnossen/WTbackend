@@ -1,11 +1,13 @@
 package nl.workingtalent.backend.entity;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import jakarta.persistence.*;
+import nl.workingtalent.backend.dto.AuthorDto;
 
 @Entity
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
@@ -66,5 +68,17 @@ public class Author {
 
 	public void setBooks(List<Book> books) {
 		this.books = books;
+	}
+	
+	//Methods
+	
+	public AuthorDto toDto() {
+		AuthorDto a = new AuthorDto();
+		a.setId(id);
+		a.setBirthYear(birthYear);
+		a.setName(name);
+		a.setNationality(nationality);
+		a.setBooks(books.stream().map(b -> b.getId()).collect(Collectors.toList()));
+		return a;
 	}
 }

@@ -1,10 +1,13 @@
 package nl.workingtalent.backend.entity;
 
 import jakarta.persistence.*;
+import nl.workingtalent.backend.controller.AuthorController;
+import nl.workingtalent.backend.dto.BookDto;
 
 import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
@@ -208,5 +211,26 @@ public class Book {
 
 	public void setCopies(List<Copy> copies) {
 		this.copies = copies;
+	}
+	
+	//Methods
+	
+	public BookDto toDto() {
+		BookDto b = new BookDto();
+		b.setId(id);
+		b.setAuthor(author.toDto());
+		b.setDescription(description);
+		b.setTitle(title);
+		b.setEdition(edition);
+		b.setInfo(info);
+		b.setFormat(format);
+		b.setIsbnNumber(isbnNumber);
+		b.setPublisher(publisher);
+		b.setPageCount(pageCount);
+		b.setTags(tags.stream().map(t -> t.getName()).collect(Collectors.toList()));
+		b.setRating(rating);
+		b.setRelatedCourses(relatedCourses);
+		b.setCopies(copies.stream().map(c -> c.getId()).collect(Collectors.toList()));
+		return b;
 	}
 }
