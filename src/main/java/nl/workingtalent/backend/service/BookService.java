@@ -6,14 +6,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class BookService {
     @Autowired
     BookRepository br;
-
+    
     public List<Book> getBooks() {
-        return br.findAll();
-
-    }
+		return br.findAll();
+	}
+    
+    public Optional<Book> getBookById(long id) {
+		return br.findById(id);
+	}
 }

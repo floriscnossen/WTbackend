@@ -9,22 +9,22 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import nl.workingtalent.backend.entity.User;
-import nl.workingtalent.backend.service.UserService;
+import nl.workingtalent.backend.entity.Copy;
+import nl.workingtalent.backend.service.CopyService;
 
 @RestController
-@RequestMapping(path = "user")
-public class UserController {
+@RequestMapping(path = "copy")
+public class CopyController {
 	@Autowired
-	UserService us;
+	CopyService cs;
 	
 	@GetMapping("all")
-	public List<User> getUsers() {
-		return us.getUsers();
+	public List<Copy> getCopies() {
+		return cs.getCopies();
 	}
 	
 	@GetMapping("{id}")
-	public Optional<User> getUserById(@PathVariable("id") long id) {
-		return us.getUserById(id);
+	public Optional<Copy> getCopyById(@PathVariable("id") long id) {
+		return cs.getCopyById(id);
 	}
 }

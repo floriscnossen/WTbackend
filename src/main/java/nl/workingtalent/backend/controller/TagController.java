@@ -9,22 +9,22 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import nl.workingtalent.backend.entity.User;
-import nl.workingtalent.backend.service.UserService;
+import nl.workingtalent.backend.entity.Tag;
+import nl.workingtalent.backend.service.TagService;
 
 @RestController
-@RequestMapping(path = "user")
-public class UserController {
+@RequestMapping(path = "tag")
+public class TagController {
 	@Autowired
-	UserService us;
+	TagService ts;
 	
 	@GetMapping("all")
-	public List<User> getUsers() {
-		return us.getUsers();
+	public List<Tag> getTags() {
+		return ts.getTags();
 	}
 	
 	@GetMapping("{id}")
-	public Optional<User> getUserById(@PathVariable("id") long id) {
-		return us.getUserById(id);
+	public Optional<Tag> getTagById(@PathVariable("id") long id) {
+		return ts.getTagById(id);
 	}
 }

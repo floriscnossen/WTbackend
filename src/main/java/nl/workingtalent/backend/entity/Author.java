@@ -1,11 +1,16 @@
 package nl.workingtalent.backend.entity;
 
-import java.util.Date;
-import java.util.Set;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import jakarta.persistence.*;
+import nl.workingtalent.backend.dto.AuthorDto;
 
 @Entity
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Author {
 
 	@Id
@@ -16,14 +21,15 @@ public class Author {
 	private String name;
 	
 	@Column(nullable = true, length = 100)
-    private Date date;
+    private int birthYear;
 	
 	@Column(nullable=true, length = 100)
 	private String nationality;
-
-	@OneToMany(mappedBy = "author")
-	private Set<Book> books;
 	
+	@OneToMany(mappedBy = "author")
+	private List<Book> books;
+	
+	//Getters and setters
 	public long getId() {
 		return id;
 	}
@@ -40,12 +46,12 @@ public class Author {
 		this.name = name;
 	}
 
-	public Date getDate() {
-		return date;
+	public int getBirthYear() {
+		return birthYear;
 	}
 
-	public void setDate(Date date) {
-		this.date = date;
+	public void setBirthYear(int birthYear) {
+		this.birthYear = birthYear;
 	}
 
 	public String getNationality() {
@@ -56,5 +62,23 @@ public class Author {
 		this.nationality = nationality;
 	}
 
+	public List<Book> getBooks() {
+		return books;
+	}
 
+	public void setBooks(List<Book> books) {
+		this.books = books;
+	}
+	
+	//Methods
+	
+	public AuthorDto toDto() {
+		AuthorDto a = new AuthorDto();
+		a.setId(id);
+		a.setBirthYear(birthYear);
+		a.setName(name);
+		a.setNationality(nationality);
+		a.setBooks(books.stream().map(b -> b.getId()).collect(Collectors.toList()));
+		return a;
+	}
 }

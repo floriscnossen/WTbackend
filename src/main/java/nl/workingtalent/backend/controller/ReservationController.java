@@ -9,22 +9,22 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import nl.workingtalent.backend.entity.User;
-import nl.workingtalent.backend.service.UserService;
+import nl.workingtalent.backend.entity.Reservation;
+import nl.workingtalent.backend.service.ReservationService;
 
 @RestController
-@RequestMapping(path = "user")
-public class UserController {
+@RequestMapping(path = "reservation")
+public class ReservationController {
 	@Autowired
-	UserService us;
+	ReservationService rs;
 	
 	@GetMapping("all")
-	public List<User> getUsers() {
-		return us.getUsers();
+	public List<Reservation> getReservations() {
+		return rs.getReservations();
 	}
 	
 	@GetMapping("{id}")
-	public Optional<User> getUserById(@PathVariable("id") long id) {
-		return us.getUserById(id);
+	public Optional<Reservation> getAuthorById(@PathVariable("id") long id) {
+		return rs.getReservationById(id);
 	}
 }
