@@ -28,7 +28,7 @@ public class BookController {
 	}
 	
 	@GetMapping("{id}")
-	public Optional<Book> getBookById(@PathVariable("id") long id) {
-		return bs.getBookById(id);
+	public Optional<BookDto> getBookById(@PathVariable("id") long id) {
+		return bs.getBookById(id).map(b -> b.toDto());
 	}
 }
