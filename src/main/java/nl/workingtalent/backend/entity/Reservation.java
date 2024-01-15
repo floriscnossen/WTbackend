@@ -2,11 +2,14 @@ package nl.workingtalent.backend.entity;
 
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import jakarta.persistence.*;
+import nl.workingtalent.backend.dto.CopyDto;
+import nl.workingtalent.backend.dto.ReservationDto;
 
 @Entity
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
@@ -53,10 +56,6 @@ public class Reservation {
 		return user;
 	}
 
-	public void setUserId(User user){
-		this.user = user;
-	}
-
 	public Date getDate() {
 		return date;
 	}
@@ -71,6 +70,17 @@ public class Reservation {
 
 	public void setStatus(String status) {
 		this.status = status;
+	}
+	
+	//Methods
+	
+	public ReservationDto toDto() {
+		ReservationDto r = new ReservationDto();
+		r.setId(id);
+		r.setCopy(copy.toDto());
+		r.setUser(user.toDto());
+		r.setStatus(status);
+		return r;
 	}
 	
 }

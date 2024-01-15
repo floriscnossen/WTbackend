@@ -34,10 +34,6 @@ public class ReservationDto {
 		return user;
 	}
 
-	public void setUserId(UserDto user){
-		this.user = user;
-	}
-
 	public Date getDate() {
 		return date;
 	}

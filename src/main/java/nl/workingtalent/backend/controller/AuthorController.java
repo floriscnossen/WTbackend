@@ -27,6 +27,6 @@ public class AuthorController {
 	
 	@GetMapping("{id}")
 	public Optional<AuthorDto> getAuthorById(@PathVariable("id") long id) {
-		return as.getAuthorById(id).map(b -> b.toDto());
+		return as.getAuthorById(id).map(a -> a.toDto());
 	}
 }

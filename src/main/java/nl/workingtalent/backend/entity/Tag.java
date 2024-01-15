@@ -1,8 +1,11 @@
 package nl.workingtalent.backend.entity;
 
 import jakarta.persistence.*;
+import nl.workingtalent.backend.dto.ReservationDto;
+import nl.workingtalent.backend.dto.TagDto;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
@@ -54,4 +57,14 @@ public class Tag {
     public void setBooks(List<Book> books) {
         this.books = books;
     }
+	
+	//Methods
+	
+	public TagDto toDto() {
+		TagDto t = new TagDto();
+		t.setId(id);
+		t.setName(name);
+		t.setBooks(books.stream().map(b -> b.getId()).collect(Collectors.toList()));
+		return t;
+	}
 }

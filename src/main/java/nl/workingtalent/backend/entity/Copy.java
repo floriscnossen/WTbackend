@@ -2,8 +2,11 @@ package nl.workingtalent.backend.entity;
 
 
 import jakarta.persistence.*;
+import nl.workingtalent.backend.dto.BookDto;
+import nl.workingtalent.backend.dto.CopyDto;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
@@ -56,5 +59,16 @@ public class Copy {
 
 	public void setBook(Book book) {
 		this.book = book;
+	}
+	
+	//Methods
+	
+	public CopyDto toDto() {
+		CopyDto c = new CopyDto();
+		c.setId(id);
+		c.setAvailable(available);
+		c.setBook(book.toDto());
+		c.setReservations(reservations.stream().map(t -> t.getId()).collect(Collectors.toList()));
+		return c;
 	}
 }

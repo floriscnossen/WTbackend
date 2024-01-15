@@ -1,13 +1,15 @@
 package nl.workingtalent.backend.dto;
 
+import java.util.List;
+
 public class UserDto {
 	private long id;
 	private String firstName;
 	private String lastName;
 	private String role;
-	private String password;
 	private String email;
 	private boolean admin;
+	private List<Long> reservations;
 
 	//Getters and setters
 	public long getId() {
@@ -64,5 +66,13 @@ public class UserDto {
 
 	public void setAdmin(boolean admin) {
 		this.admin = admin;
+	}
+
+	public List<Long> getReservations() {
+		return reservations;
+	}
+
+	public void setReservations(List<Long> reservations) {
+		this.reservations = reservations;
 	}
 }
