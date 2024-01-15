@@ -1,11 +1,8 @@
 package nl.workingtalent.backend.entity;
 
-import java.util.Date;
-import java.util.List;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import jakarta.persistence.*;
@@ -22,7 +19,7 @@ public class Author {
 	private String name;
 	
 	@Column(nullable = true, length = 100)
-    private Integer birthYear;
+    private int birthYear;
 	
 	@Column(nullable=true, length = 100)
 	private String nationality;

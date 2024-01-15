@@ -57,6 +57,7 @@ public class LoadCsvService {
      *   'pages', 'related_courses', 'format', 'rating', edition'.
      */
     public void loadCsv() {
+    	cr.deleteAll();
     	br.deleteAll();
     	ar.deleteAll();
     	tr.deleteAll();
