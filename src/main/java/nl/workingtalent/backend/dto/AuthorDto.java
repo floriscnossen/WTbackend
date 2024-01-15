@@ -5,9 +5,9 @@ import java.util.List;
 public class AuthorDto {
 	private Long id;
 	private String name;
-    private Integer birthYear;
+    private int birthYear;
 	private String nationality;
-//	private List<Long> books;
+	private List<Long> books;
 	
 	//Getters and setters
 	public long getId() {
@@ -26,11 +26,11 @@ public class AuthorDto {
 		this.name = name;
 	}
 
-	public Integer getBirthYear() {
+	public int getBirthYear() {
 		return birthYear;
 	}
 
-	public void setBirthYear(Integer birthYear) {
+	public void setBirthYear(int birthYear) {
 		this.birthYear = birthYear;
 	}
 
@@ -42,11 +42,11 @@ public class AuthorDto {
 		this.nationality = nationality;
 	}
 
-//	public List<Long> getBooks() {
-//		return books;
-//	}
-//
-//	public void setBooks(List<Long> books) {
-//		this.books = books;
-//	}
+	public List<Long> getBooks() {
+		return books;
+	}
+
+	public void setBooks(List<Long> books) {
+		this.books = books;
+	}
 }
