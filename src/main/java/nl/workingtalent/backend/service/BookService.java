@@ -20,4 +20,16 @@ public class BookService {
     public Optional<Book> getBookById(long id) {
 		return br.findById(id);
 	}
+    
+    public Book addBook(Book book) {
+    	return br.save(book);
+    }
+    
+    public Book updateBook(Book book) {
+    	return br.save(book);
+    }
+    
+    public void deleteBook(long id) {
+    	br.deleteById(id);
+    }
 }

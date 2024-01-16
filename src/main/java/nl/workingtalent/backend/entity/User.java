@@ -1,5 +1,6 @@
 package nl.workingtalent.backend.entity;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -117,7 +118,12 @@ public class User {
 		u.setEmail(email);
 		u.setFirstName(firstName);
 		u.setLastName(lastName);
-		u.setReservations(reservations.stream().map(t -> t.getId()).collect(Collectors.toList()));
+		if (reservations == null) {
+			u.setReservations(new ArrayList<Long>());
+		}
+		else {
+			u.setReservations(reservations.stream().map(t -> t.getId()).collect(Collectors.toList()));
+		}
 		return u;
 	}
 }

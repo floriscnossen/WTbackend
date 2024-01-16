@@ -5,6 +5,7 @@ import nl.workingtalent.backend.controller.AuthorController;
 import nl.workingtalent.backend.dto.BookDto;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -227,10 +228,20 @@ public class Book {
 		b.setIsbnNumber(isbnNumber);
 		b.setPublisher(publisher);
 		b.setPageCount(pageCount);
-		b.setTags(tags.stream().map(t -> t.getName()).collect(Collectors.toList()));
+		if (tags == null) {
+			b.setTags(new ArrayList<String>());
+		}
+		else {
+			b.setTags(tags.stream().map(t -> t.getName()).collect(Collectors.toList()));
+		}
 		b.setRating(rating);
 		b.setRelatedCourses(relatedCourses);
-		b.setCopies(copies.stream().map(c -> c.getId()).collect(Collectors.toList()));
+		if (copies == null) {
+			b.setCopies(new ArrayList<Long>());
+		}
+		else {
+			b.setCopies(copies.stream().map(c -> c.getId()).collect(Collectors.toList()));
+		}
 		return b;
 	}
 }

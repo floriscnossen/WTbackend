@@ -29,4 +29,8 @@ public class AuthorService {
     public Author updateAuthor(Author author) {
     	return ar.save(author);
     }
+    
+    public void deleteAuthor(long id) {
+    	ar.deleteById(id);
+    }
 }

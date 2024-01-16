@@ -1,5 +1,6 @@
 package nl.workingtalent.backend.entity;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -78,7 +79,12 @@ public class Author {
 		a.setBirthYear(birthYear);
 		a.setName(name);
 		a.setNationality(nationality);
-		a.setBooks(books.stream().map(b -> b.getId()).collect(Collectors.toList()));
+		if (books == null) {
+			a.setBooks(new ArrayList<Long>());
+		}
+		else {
+			a.setBooks(books.stream().map(b -> b.getId()).collect(Collectors.toList()));
+		}
 		return a;
 	}
 }

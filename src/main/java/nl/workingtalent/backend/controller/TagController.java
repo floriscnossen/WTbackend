@@ -5,8 +5,12 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -28,5 +32,26 @@ public class TagController {
 	@GetMapping("{id}")
 	public Optional<TagDto> getTagById(@PathVariable("id") long id) {
 		return ts.getTagById(id).map(t -> t.toDto());
+	}
+	
+	@PostMapping
+	public void addTag(@RequestBody Tag t) {
+		ts.addTag(t);
+	}
+	
+	@PutMapping("{id}")
+	public void updateTag(@PathVariable("id") long id, @RequestBody Tag t) {
+		t.setId(id);
+		ts.updateTag(t);
+	}
+	
+	@DeleteMapping("{id}")
+	public void updateTag(@PathVariable("id") long id) {
+		ts.deleteTag(id);
+	}
+	
+	@GetMapping("test/{name}")
+	public TagDto getOrAdd(@PathVariable("name") String name) {
+		return ts.findOraddTagByName(name).toDto();
 	}
 }

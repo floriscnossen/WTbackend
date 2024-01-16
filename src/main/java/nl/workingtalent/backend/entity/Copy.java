@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import nl.workingtalent.backend.dto.BookDto;
 import nl.workingtalent.backend.dto.CopyDto;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -68,7 +69,12 @@ public class Copy {
 		c.setId(id);
 		c.setAvailable(available);
 		c.setBook(book.toDto());
-		c.setReservations(reservations.stream().map(t -> t.getId()).collect(Collectors.toList()));
+		if (reservations == null) {
+			c.setReservations(new ArrayList<Long>());
+		}
+		else {
+			c.setReservations(reservations.stream().map(t -> t.getId()).collect(Collectors.toList()));
+		}
 		return c;
 	}
 }

@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import nl.workingtalent.backend.dto.ReservationDto;
 import nl.workingtalent.backend.dto.TagDto;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -64,7 +65,12 @@ public class Tag {
 		TagDto t = new TagDto();
 		t.setId(id);
 		t.setName(name);
-		t.setBooks(books.stream().map(b -> b.getId()).collect(Collectors.toList()));
+		if (books == null) {
+			t.setBooks(new ArrayList<Long>());
+		}
+		else {
+			t.setBooks(books.stream().map(b -> b.getId()).collect(Collectors.toList()));
+		}
 		return t;
 	}
 }
