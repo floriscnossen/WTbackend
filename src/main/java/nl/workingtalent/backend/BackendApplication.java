@@ -13,7 +13,7 @@ import nl.workingtalent.backend.repository.AuthorRepository;
 import nl.workingtalent.backend.repository.BookRepository;
 import nl.workingtalent.backend.repository.TagRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.kafka.annotation.KafkaListener;
+//import org.springframework.kafka.annotation.KafkaListener;
 
 import java.io.IOException;
 import java.util.*;
