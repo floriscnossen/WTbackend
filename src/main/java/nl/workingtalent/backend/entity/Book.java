@@ -1,17 +1,26 @@
 package nl.workingtalent.backend.entity;
 
 import jakarta.persistence.*;
+import nl.workingtalent.backend.controller.AuthorController;
+import nl.workingtalent.backend.dto.BookDto;
 
+import java.time.LocalDate;
 import java.util.Date;
-import java.util.Set;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 @Entity
-@Table(name = "Book")
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Book {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private long id;
 
     @Column(nullable=false)
     private String title;
@@ -21,26 +30,26 @@ public class Book {
     private Author author;
 
     @OneToMany(mappedBy = "book")
-    private Set<Copy> copy;
+    private List<Copy> copy;
 
     private String description;
     @ManyToMany
     @JoinTable(name= "Book_Tags")
-    private Set<Tag> tags;
-    private Date releaseDate;
+    private List<Tag> tags;
+    private LocalDate releaseDate;
     private String isbnNumber;
     private String publisher;
-    private Integer pageCount;
+    private int pageCount;
 
 //    TODO: voor de implementatie hiervan hebben we een Course class nodig. Dit komt evtl. later.
     private String relatedCourses;
     private String format;
     
     @OneToMany(mappedBy = "book")
-    private Set<Copy> copies;
+    private List<Copy> copies;
   
     private String info;
-    private String rating;
+    private float rating;
     private String edition;
 
     public Book() {
@@ -50,15 +59,15 @@ public class Book {
     public Book(String title,
                 Author author,
                 String description,
-                Set<Tag> tags,
-                Date releaseDate,
+                List<Tag> tags,
+                LocalDate releaseDate,
                 String isbnNumber,
                 String publisher,
-                Integer pageCount,
+                int pageCount,
                 String relatedCourses,
                 String format,
                 String info,
-                String rating,
+                float rating,
                 String edition) {
         this.title = title;
         this.author = author;
@@ -75,12 +84,12 @@ public class Book {
         this.edition = edition;
     }
 
-    //Getters & Setters
-    public void setId(Long id) {
+    //Getters & Listters
+    public void setId(long id) {
         this.id = id;
     }
 
-    public Long getId() {
+    public long getId() {
         return id;
     }
 
@@ -108,19 +117,19 @@ public class Book {
         this.description = description;
     }
 
-    public Set<Tag> getTags() {
+    public List<Tag> getTags() {
         return tags;
     }
 
-    public void setTags(Set<Tag> tags) {
+    public void setTags(List<Tag> tags) {
         this.tags = tags;
     }
 
-    public Date getReleaseDate() {
+    public LocalDate getReleaseDate() {
         return releaseDate;
     }
 
-    public void setReleaseDate(Date releaseDate) {
+    public void setReleaseDate(LocalDate releaseDate) {
         this.releaseDate = releaseDate;
     }
 
@@ -148,11 +157,11 @@ public class Book {
         this.format = format;
     }
 
-    public Integer getPageCount() {
+    public int getPageCount() {
         return pageCount;
     }
 
-    public void setPageCount(Integer pageCount) {
+    public void setPageCount(int pageCount) {
         this.pageCount = pageCount;
     }
 
@@ -172,11 +181,11 @@ public class Book {
         this.info = info;
     }
 
-    public String getRating() {
+    public float getRating() {
         return rating;
     }
 
-    public void setRating(String rating) {
+    public void setRating(float rating) {
         this.rating = rating;
     }
 
@@ -187,4 +196,41 @@ public class Book {
     public void setEdition(String edition) {
         this.edition = edition;
     }
+
+	public List<Copy> getCopy() {
+		return copy;
+	}
+
+	public void setCopy(List<Copy> copy) {
+		this.copy = copy;
+	}
+
+	public List<Copy> getCopies() {
+		return copies;
+	}
+
+	public void setCopies(List<Copy> copies) {
+		this.copies = copies;
+	}
+	
+	//Methods
+	
+	public BookDto toDto() {
+		BookDto b = new BookDto();
+		b.setId(id);
+		b.setAuthor(author.toDto());
+		b.setDescription(description);
+		b.setTitle(title);
+		b.setEdition(edition);
+		b.setInfo(info);
+		b.setFormat(format);
+		b.setIsbnNumber(isbnNumber);
+		b.setPublisher(publisher);
+		b.setPageCount(pageCount);
+		b.setTags(tags.stream().map(t -> t.getName()).collect(Collectors.toList()));
+		b.setRating(rating);
+		b.setRelatedCourses(relatedCourses);
+		b.setCopies(copies.stream().map(c -> c.getId()).collect(Collectors.toList()));
+		return b;
+	}
 }

@@ -1,37 +1,12 @@
-package nl.workingtalent.backend.entity;
+package nl.workingtalent.backend.dto;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-
-@Entity
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
-public class User {
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+public class UserDto {
 	private long id;
-	
-	@Column(nullable = false, length = 100)
 	private String firstName;
-	
-	@Column(nullable = false, length = 100)
 	private String lastName;
-	
-	@Column(nullable = true, length = 100)
 	private String role;
-	
-	@Column(nullable = false, length = 100)
 	private String password;
-	
-	@Column(nullable = false, length = 100)
 	private String email;
-	
-	@Column(nullable = false, length = 100)
 	private boolean admin;
 
 	//Getters and setters
