@@ -16,7 +16,6 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 @Entity
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Book {
 
     @Id
@@ -53,9 +52,9 @@ public class Book {
     private float rating;
     private String edition;
 
-    public Book() {
-        //Empty constructor
-    }
+    
+    //Constructors
+    public Book() { }
 
     public Book(String title,
                 Author author,
@@ -85,7 +84,7 @@ public class Book {
         this.edition = edition;
     }
 
-    //Getters & Listters
+    //Getters & Setters
     public void setId(long id) {
         this.id = id;
     }

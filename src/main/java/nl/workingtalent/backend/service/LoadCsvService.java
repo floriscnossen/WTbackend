@@ -23,6 +23,7 @@ import nl.workingtalent.backend.entity.Tag;
 import nl.workingtalent.backend.repository.AuthorRepository;
 import nl.workingtalent.backend.repository.BookRepository;
 import nl.workingtalent.backend.repository.CopyRepository;
+import nl.workingtalent.backend.repository.ReservationRepository;
 import nl.workingtalent.backend.repository.TagRepository;
 
 @Service
@@ -41,6 +42,9 @@ public class LoadCsvService {
 	
     @Autowired
     CopyRepository cr;
+	
+    @Autowired
+    ReservationRepository rr;
     
 	Map<String,Author> authorMap = new HashMap<>();
 
@@ -57,6 +61,7 @@ public class LoadCsvService {
      *   'pages', 'related_courses', 'format', 'rating', edition'.
      */
     public void loadCsv() {
+    	rr.deleteAll();
     	cr.deleteAll();
     	br.deleteAll();
     	ar.deleteAll();
@@ -109,33 +114,27 @@ public class LoadCsvService {
     /* Returns the author with a given name or creates it.
      * TODO: Maybe use ar instead of authorMap. */
     public Author getAuthorByName(String authorName, String authorBirthYear) {
-    	Author author;
     	if (authorMap.containsKey(authorName)) {
-    		author = authorMap.get(authorName);
+    		return authorMap.get(authorName);
     	}
-    	else {
-    		author = new Author();
-    		author.setName(authorName);
-    		try { author.setBirthYear((int) Float.parseFloat(authorBirthYear));} catch (NumberFormatException e) {}
-    		author = ar.save(author);
-    		authorMap.put(authorName, author);
-    	}
+    	
+		Author author = new Author(authorName);
+		try { author.setBirthYear((int) Float.parseFloat(authorBirthYear));} 
+		catch (NumberFormatException e) {}
+		author = ar.save(author);
+		authorMap.put(authorName, author);
     	return author;
     }
 
     /* Returns the tag with a given name or creates it.
      * TODO: Maybe use tr instead of tagMap. */
     public Tag getTagByName(String tagName) {
-    	Tag tag;
     	if (tagMap.containsKey(tagName)) {
-    		tag = tagMap.get(tagName);
+    		return tagMap.get(tagName);
     	}
-    	else {
-    		tag = new Tag();
-    		tag.setName(tagName);
-    		tag = tr.save(tag);
-    		tagMap.put(tagName, tag);
-    	}
+    	
+		Tag tag = tr.save(new Tag(tagName));
+		tagMap.put(tagName, tag);
     	return tag;
     }
 }

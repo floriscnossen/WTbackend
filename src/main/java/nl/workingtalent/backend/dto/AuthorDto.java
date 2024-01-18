@@ -11,6 +11,17 @@ public class AuthorDto {
 	private String nationality;
 	private List<Long> books;
 	
+	// Constructors
+	public AuthorDto() {}
+	
+	public AuthorDto(long id, String name, int birthYear, String nationality) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.birthYear = birthYear;
+		this.nationality = nationality;
+	}
+
 	//Getters and setters
 	public long getId() {
 		return id;

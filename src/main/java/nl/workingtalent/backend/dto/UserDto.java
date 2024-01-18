@@ -10,6 +10,17 @@ public class UserDto {
 	private String email;
 	private boolean admin;
 	private List<Long> reservations;
+	
+	//Constructors
+	public UserDto() {}
+
+	public UserDto(long id, String firstName, String lastName, String email, boolean admin) {
+		this.id = id;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.email = email;
+		this.admin = admin;
+	}
 
 	//Getters and setters
 	public long getId() {

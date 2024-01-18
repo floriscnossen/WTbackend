@@ -13,7 +13,6 @@ import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 @Entity
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Copy {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,6 +27,14 @@ public class Copy {
 	
 	@Column(nullable = false)
 	private boolean available;
+
+    //Constructors
+	public Copy() {}
+
+	public Copy(Book book, boolean available) {
+		this.book = book;
+		this.available = available;
+	}
 
 	//Getters and setters
 	public List<Reservation> getReservations() {
@@ -61,6 +68,8 @@ public class Copy {
 	public void setBook(Book book) {
 		this.book = book;
 	}
+	
+	
 	
 	//Methods
 	

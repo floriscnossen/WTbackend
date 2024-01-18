@@ -5,12 +5,17 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import nl.workingtalent.backend.dto.CopyDto;
+import nl.workingtalent.backend.entity.Book;
 import nl.workingtalent.backend.entity.Copy;
 import nl.workingtalent.backend.service.CopyService;
 
@@ -28,5 +33,21 @@ public class CopyController {
 	@GetMapping("{id}")
 	public Optional<CopyDto> getCopyById(@PathVariable("id") long id) {
 		return cs.getCopyById(id).map(c -> c.toDto());
+	}
+	
+	@PostMapping
+	public void addCopy(@RequestBody Copy a) {
+		cs.addCopy(a);
+	}
+	
+	@PutMapping("{id}")
+	public void updateCopy(@PathVariable("id") long id, @RequestBody Copy a) {
+		a.setId(id);
+		cs.updateCopy(a);
+	}
+	
+	@DeleteMapping("{id}")
+	public void updateCopy(@PathVariable("id") long id) {
+		cs.deleteCopy(id);
 	}
 }

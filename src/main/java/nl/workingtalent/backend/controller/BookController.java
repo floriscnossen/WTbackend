@@ -36,6 +36,23 @@ public class BookController {
 		return bs.getBookById(id).map(b -> b.toDto());
 	}
 	
+	@GetMapping("title/{title}")
+	public List<BookDto> getBooksByTitle(@PathVariable("title") String title) {
+		return bs.getBooksByTitle(title).stream().map(b -> b.toDto()).collect(Collectors.toList());
+	}
+	
+	@GetMapping("tag/{id}")
+	public List<BookDto> getBooksByTagId(@PathVariable("id") long id) {
+		return bs.getBooksByTagId(id).stream().map(b -> b.toDto()).collect(Collectors.toList());
+	}
+	
+	@GetMapping("tag/name/{name}")
+	public List<BookDto> getBooksByTagName(@PathVariable("name") String name) {
+		return bs.getBooksByTagName(name).stream().map(b -> b.toDto()).collect(Collectors.toList());
+	}
+	
+	
+	
 	@PostMapping
 	public void addBook(@RequestBody Book a) {
 		bs.addBook(a);

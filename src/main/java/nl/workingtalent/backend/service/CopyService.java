@@ -21,5 +21,16 @@ public class CopyService {
     public Optional<Copy> getCopyById(long id) {
 		return cr.findById(id);
 	}
-	
+    
+    public Copy addCopy(Copy copy) {
+    	return cr.save(copy);
+    }
+    
+    public Copy updateCopy(Copy copy) {
+    	return cr.save(copy);
+    }
+    
+    public void deleteCopy(long id) {
+    	cr.deleteById(id);
+    }
 }
