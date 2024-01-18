@@ -48,7 +48,7 @@ public class LoadCsvService {
 
     @PostConstruct
     public void init() {
-    	loadCsv();
+//    	loadCsv();
     }
     
     /* Loads the data of the csv file "data_cleaned.csv".
