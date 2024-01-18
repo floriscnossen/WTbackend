@@ -52,7 +52,7 @@ public class ReservationController {
 	}
 	
 	@DeleteMapping("{id}")
-	public void updateReservation(@PathVariable("id") long id) {
+	public void deleteReservation(@PathVariable("id") long id) {
 		rs.deleteReservation(id);
 	}
 }

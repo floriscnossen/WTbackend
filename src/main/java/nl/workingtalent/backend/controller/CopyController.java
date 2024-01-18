@@ -47,7 +47,7 @@ public class CopyController {
 	}
 	
 	@DeleteMapping("{id}")
-	public void updateCopy(@PathVariable("id") long id) {
+	public void deleteCopy(@PathVariable("id") long id) {
 		cs.deleteCopy(id);
 	}
 }

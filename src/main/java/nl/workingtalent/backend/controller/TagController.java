@@ -46,12 +46,7 @@ public class TagController {
 	}
 	
 	@DeleteMapping("{id}")
-	public void updateTag(@PathVariable("id") long id) {
+	public void deleteTag(@PathVariable("id") long id) {
 		ts.deleteTag(id);
-	}
-	
-	@GetMapping("test/{name}")
-	public TagDto getOrAdd(@PathVariable("name") String name) {
-		return ts.findOraddTagByName(name).toDto();
 	}
 }

@@ -65,7 +65,7 @@ public class BookController {
 	}
 	
 	@DeleteMapping("{id}")
-	public void updateBook(@PathVariable("id") long id) {
+	public void deleteBook(@PathVariable("id") long id) {
 		bs.deleteBook(id);
 	}
 }
