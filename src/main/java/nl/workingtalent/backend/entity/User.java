@@ -33,6 +33,9 @@ public class User {
 	
 	@Column(nullable = false, length = 100)
 	private boolean admin;
+	
+	@Column(nullable = true, length = 100)
+	private String token;
 
 	//Getters and setters
 	public long getId() {
@@ -89,5 +92,13 @@ public class User {
 
 	public void setAdmin(boolean admin) {
 		this.admin = admin;
+	}
+	
+	public String getToken() {
+		return token;
+	}
+	
+	public void setToken(String token) {
+		this.token = token;
 	}
 }
