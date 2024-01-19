@@ -2,14 +2,17 @@ package nl.workingtalent.backend.entity;
 
 
 import jakarta.persistence.*;
+import nl.workingtalent.backend.dto.BookDto;
+import nl.workingtalent.backend.dto.CopyDto;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 @Entity
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Copy {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,6 +27,14 @@ public class Copy {
 	
 	@Column(nullable = false)
 	private boolean available;
+
+    //Constructors
+	public Copy() {}
+
+	public Copy(Book book, boolean available) {
+		this.book = book;
+		this.available = available;
+	}
 
 	//Getters and setters
 	public List<Reservation> getReservations() {
@@ -56,5 +67,23 @@ public class Copy {
 
 	public void setBook(Book book) {
 		this.book = book;
+	}
+	
+	
+	
+	//Methods
+	
+	public CopyDto toDto() {
+		CopyDto c = new CopyDto();
+		c.setId(id);
+		c.setAvailable(available);
+		c.setBook(book.toDto());
+		if (reservations == null) {
+			c.setReservations(new ArrayList<Long>());
+		}
+		else {
+			c.setReservations(reservations.stream().map(t -> t.getId()).collect(Collectors.toList()));
+		}
+		return c;
 	}
 }

@@ -8,6 +8,15 @@ public class CopyDto {
 	private List<Long> reservations;
 	private boolean available;
 
+    //Constructors
+	public CopyDto() {}
+
+	public CopyDto(long id, BookDto book, boolean available) {
+		this.id = id;
+		this.book = book;
+		this.available = available;
+	}
+
 	//Getters and setters
 	public List<Long> getReservations() {
 		return reservations;

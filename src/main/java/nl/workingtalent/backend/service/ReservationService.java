@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import nl.workingtalent.backend.entity.Reservation;
+import nl.workingtalent.backend.entity.User;
 import nl.workingtalent.backend.repository.ReservationRepository;
 
 @Service
@@ -21,5 +22,21 @@ public class ReservationService {
     public Optional<Reservation> getReservationById(long id) {
 		return rr.findById(id);
 	}
+    
+    public List<Reservation> getReservationsByUser(long id) {
+		return rr.findByUserIdOrderByStartDate(id);
+	}
+    
+    public Reservation addReservation(Reservation reservation) {
+    	return rr.save(reservation);
+    }
+    
+    public Reservation updateReservation(Reservation reservation) {
+    	return rr.save(reservation);
+    }
+    
+    public void deleteReservation(long id) {
+    	rr.deleteById(id);
+    }
 	
 }

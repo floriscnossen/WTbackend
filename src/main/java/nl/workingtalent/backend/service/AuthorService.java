@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import nl.workingtalent.backend.entity.Author;
+import nl.workingtalent.backend.entity.Tag;
 import nl.workingtalent.backend.repository.AuthorRepository;
 
 @Service
@@ -26,7 +27,15 @@ public class AuthorService {
     	return ar.save(author);
     }
     
+    public Author findOraddAuthorByName(String name, int birthYear) {
+    	return ar.findFirstByName(name).orElseGet(() -> ar.save(new Author(name, birthYear)));
+    }
+    
     public Author updateAuthor(Author author) {
     	return ar.save(author);
+    }
+    
+    public void deleteAuthor(long id) {
+    	ar.deleteById(id);
     }
 }

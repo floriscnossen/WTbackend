@@ -6,8 +6,20 @@ public class ReservationDto {
 	private long id;
 	private CopyDto copy;
 	private UserDto user;
-	private Date date;
+	private Date startDate;
+	private Date endDate;
 	private String status;
+	
+	//Constructors
+	public ReservationDto() {}
+
+	public ReservationDto(CopyDto copy, UserDto user, Date startDate, Date endDate, String status) {
+		this.copy = copy;
+		this.user = user;
+		this.startDate = startDate;
+		this.endDate = endDate;
+		this.status = status;
+	}
 
 	//Getters and setters
 	public long getId() {
@@ -34,16 +46,20 @@ public class ReservationDto {
 		return user;
 	}
 
-	public void setUserId(UserDto user){
-		this.user = user;
+	public Date getStartDate() {
+		return startDate;
 	}
 
-	public Date getDate() {
-		return date;
+	public void setStartDate(Date startDate) {
+		this.startDate = startDate;
 	}
 
-	public void setDate(Date date) {
-		this.date = date;
+	public Date getEndDate() {
+		return endDate;
+	}
+
+	public void setEndDate(Date endDate) {
+		this.endDate = endDate;
 	}
 
 	public String getStatus() {

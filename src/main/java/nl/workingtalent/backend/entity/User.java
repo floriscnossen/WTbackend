@@ -1,5 +1,9 @@
 package nl.workingtalent.backend.entity;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
@@ -8,9 +12,11 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+import nl.workingtalent.backend.dto.TagDto;
+import nl.workingtalent.backend.dto.UserDto;
 
 @Entity
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class User {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,13 +32,26 @@ public class User {
 	private String role;
 	
 	@Column(nullable = false, length = 100)
-	private String password;
-	
-	@Column(nullable = false, length = 100)
 	private String email;
 	
 	@Column(nullable = false, length = 100)
+	private String password;
+	
+	@Column(nullable = false, length = 100)
 	private boolean admin;
+
+	@OneToMany(mappedBy = "user")
+	private List<Reservation> reservations;
+
+	public User() {}
+
+	public User(String firstName, String lastName, String email, String password, boolean admin) {
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.email = email;
+		this.password = password;
+		this.admin = admin;
+	}
 
 	//Getters and setters
 	public long getId() {
@@ -89,5 +108,31 @@ public class User {
 
 	public void setAdmin(boolean admin) {
 		this.admin = admin;
+	}
+	
+	public List<Reservation> getReservations() {
+		return reservations;
+	}
+
+	public void setReservations(List<Reservation> reservations) {
+		this.reservations = reservations;
+	}
+	
+	//Methods
+
+	public UserDto toDto() {
+		UserDto u = new UserDto();
+		u.setId(id);
+		u.setAdmin(admin);
+		u.setEmail(email);
+		u.setFirstName(firstName);
+		u.setLastName(lastName);
+		if (reservations == null) {
+			u.setReservations(new ArrayList<Long>());
+		}
+		else {
+			u.setReservations(reservations.stream().map(t -> t.getId()).collect(Collectors.toList()));
+		}
+		return u;
 	}
 }
