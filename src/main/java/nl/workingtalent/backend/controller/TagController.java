@@ -15,7 +15,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import nl.workingtalent.backend.dto.TagDto;
+import nl.workingtalent.backend.dto.TagSaveDto;
 import nl.workingtalent.backend.entity.Tag;
+import nl.workingtalent.backend.entity.User;
+import nl.workingtalent.backend.mapper.DtoMapper;
 import nl.workingtalent.backend.service.TagService;
 
 @RestController
@@ -24,25 +27,29 @@ public class TagController {
 	@Autowired
 	TagService ts;
 	
+	@Autowired
+	DtoMapper mapper;
+	
 	@GetMapping("all")
 	public List<TagDto> getTags() {
-		return ts.getTags().stream().map(t -> t.toDto()).collect(Collectors.toList());
+		return ts.getTags().stream().map(mapper::toDto).collect(Collectors.toList());
 	}
 	
 	@GetMapping("{id}")
 	public Optional<TagDto> getTagById(@PathVariable("id") long id) {
-		return ts.getTagById(id).map(t -> t.toDto());
+		return ts.getTagById(id).map(mapper::toDto);
 	}
 	
 	@PostMapping
-	public void addTag(@RequestBody Tag t) {
-		ts.addTag(t);
+	public void addTag(@RequestBody TagSaveDto tagDto) {
+		ts.addTag(mapper.toEntity(tagDto));
 	}
 	
 	@PutMapping("{id}")
-	public void updateTag(@PathVariable("id") long id, @RequestBody Tag t) {
-		t.setId(id);
-		ts.updateTag(t);
+	public void updateTag(@PathVariable("id") long id, @RequestBody TagSaveDto tagDto) {
+		Tag tag = mapper.toEntity(tagDto);
+		tag.setId(id);
+		ts.updateTag(tag);
 	}
 	
 	@DeleteMapping("{id}")

@@ -15,8 +15,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import nl.workingtalent.backend.dto.ReservationDto;
+import nl.workingtalent.backend.dto.ReservationSaveDto;
 import nl.workingtalent.backend.entity.Book;
 import nl.workingtalent.backend.entity.Reservation;
+import nl.workingtalent.backend.entity.User;
+import nl.workingtalent.backend.mapper.DtoMapper;
 import nl.workingtalent.backend.service.ReservationService;
 
 @RestController
@@ -25,30 +28,34 @@ public class ReservationController {
 	@Autowired
 	ReservationService rs;
 	
+	@Autowired
+	DtoMapper mapper;
+	
 	@GetMapping("all")
 	public List<ReservationDto> getReservations() {
-		return rs.getReservations().stream().map(r -> r.toDto()).collect(Collectors.toList());
+		return rs.getReservations().stream().map(mapper::toDto).collect(Collectors.toList());
 	}
 	
 	@GetMapping("{id}")
 	public Optional<ReservationDto> getReservationById(@PathVariable("id") long id) {
-		return rs.getReservationById(id).map(r -> r.toDto());
+		return rs.getReservationById(id).map(mapper::toDto);
 	}
 	
 	@GetMapping("user/{id}")
 	public List<ReservationDto> getReservationsByUser(@PathVariable("id") long id) {
-		return rs.getReservationsByUser(id).stream().map(r -> r.toDto()).collect(Collectors.toList());
+		return rs.getReservationsByUser(id).stream().map(mapper::toDto).collect(Collectors.toList());
 	}
 	
 	@PostMapping
-	public void addReservation(@RequestBody Reservation a) {
-		rs.addReservation(a);
+	public void addReservation(@RequestBody ReservationSaveDto reservationDto) {
+		rs.addReservation(mapper.toEntity(reservationDto));
 	}
 	
 	@PutMapping("{id}")
-	public void updateReservation(@PathVariable("id") long id, @RequestBody Reservation a) {
-		a.setId(id);
-		rs.updateReservation(a);
+	public void updateReservation(@PathVariable("id") long id, @RequestBody ReservationSaveDto reservationDto) {
+		Reservation reservation = mapper.toEntity(reservationDto);
+		reservation.setId(id);
+		rs.updateReservation(reservation);
 	}
 	
 	@DeleteMapping("{id}")
