@@ -28,16 +28,13 @@ public class User {
 	@Column(nullable = false, length = 100)
 	private String lastName;
 	
-	@Column(nullable = true, length = 100)
-	private String role;
-	
 	@Column(nullable = false, length = 100)
 	private String email;
 	
 	@Column(nullable = false, length = 100)
 	private String password;
 	
-	@Column(nullable = false, length = 100)
+	@Column(nullable = false)
 	private boolean admin;
 
 	@OneToMany(mappedBy = "user")
@@ -76,14 +73,6 @@ public class User {
 
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
-	}
-
-	public String getRole() {
-		return role;
-	}
-
-	public void setRole(String role) {
-		this.role = role;
 	}
 
 	public String getPassword() {

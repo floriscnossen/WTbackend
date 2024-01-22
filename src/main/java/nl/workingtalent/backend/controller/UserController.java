@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import jakarta.annotation.PostConstruct;
 import nl.workingtalent.backend.dto.UserDto;
 import nl.workingtalent.backend.dto.UserSaveDto;
 import nl.workingtalent.backend.entity.Book;
