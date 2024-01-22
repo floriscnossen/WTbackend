@@ -22,6 +22,10 @@ public class UserService {
 		return ur.findById(id);
 	}
     
+    public Optional<User> getUserByEmail(String email) {
+		return ur.findByEmail(email);
+	}
+    
     public User addUser(User user) {
     	return ur.save(user);
     }
