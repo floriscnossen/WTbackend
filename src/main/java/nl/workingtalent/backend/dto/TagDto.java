@@ -6,8 +6,16 @@ public class TagDto {
     private long id;
     private String name;
     private List<Long> books;
+    
+    //Constructors
+	public TagDto() {}
 
-    //Getters and setters
+    public TagDto(long id, String name) {
+		this.id = id;
+		this.name = name;
+	}
+
+	//Getters and setters
     public long getId() {
 		return id;
 	}

@@ -2,13 +2,26 @@ package nl.workingtalent.backend.dto;
 
 import java.util.List;
 
+import nl.workingtalent.backend.entity.Author;
+
 public class AuthorDto {
-	private Long id;
+	private long id;
 	private String name;
     private int birthYear;
 	private String nationality;
 	private List<Long> books;
 	
+	// Constructors
+	public AuthorDto() {}
+	
+	public AuthorDto(long id, String name, int birthYear, String nationality) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.birthYear = birthYear;
+		this.nationality = nationality;
+	}
+
 	//Getters and setters
 	public long getId() {
 		return id;
@@ -48,5 +61,16 @@ public class AuthorDto {
 
 	public void setBooks(List<Long> books) {
 		this.books = books;
+	}
+	
+	// Methods
+	
+	public Author toEntity() {
+		Author a = new Author();
+		a.setId(id);
+		a.setBirthYear(birthYear);
+		a.setName(name);
+		a.setNationality(nationality);
+		return a;
 	}
 }
