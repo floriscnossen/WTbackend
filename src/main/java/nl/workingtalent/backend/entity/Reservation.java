@@ -1,5 +1,6 @@
 package nl.workingtalent.backend.entity;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
@@ -22,10 +23,10 @@ public class Reservation {
 	private User user;
 
 	@Column(nullable = false, length = 100)
-	private Date startDate;
+	private LocalDate startDate;
 
 	@Column(nullable = true, length = 100)
-	private Date endDate;
+	private LocalDate endDate;
 	
 	@Column(nullable = true, length = 100)
 	private String status;
@@ -33,7 +34,7 @@ public class Reservation {
 	//Constructors
 	public Reservation() {}
 
-	public Reservation(Copy copy, User user, Date startDate, Date endDate, String status) {
+	public Reservation(Copy copy, User user, LocalDate startDate, LocalDate endDate, String status) {
 		this.copy = copy;
 		this.user = user;
 		this.startDate = startDate;
@@ -66,19 +67,19 @@ public class Reservation {
 		return user;
 	}
 
-	public Date getStartDate() {
+	public LocalDate getStartDate() {
 		return startDate;
 	}
 
-	public void setStartDate(Date startDate) {
+	public void setStartDate(LocalDate startDate) {
 		this.startDate = startDate;
 	}
 
-	public Date getEndDate() {
+	public LocalDate getEndDate() {
 		return endDate;
 	}
 
-	public void setEndDate(Date endDate) {
+	public void setEndDate(LocalDate endDate) {
 		this.endDate = endDate;
 	}
 

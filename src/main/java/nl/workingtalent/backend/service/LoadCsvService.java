@@ -3,6 +3,7 @@ package nl.workingtalent.backend.service;
 import java.io.FileReader;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,7 +20,9 @@ import jakarta.annotation.PostConstruct;
 import nl.workingtalent.backend.entity.Author;
 import nl.workingtalent.backend.entity.Book;
 import nl.workingtalent.backend.entity.Copy;
+import nl.workingtalent.backend.entity.Reservation;
 import nl.workingtalent.backend.entity.Tag;
+import nl.workingtalent.backend.entity.User;
 import nl.workingtalent.backend.repository.AuthorRepository;
 import nl.workingtalent.backend.repository.BookRepository;
 import nl.workingtalent.backend.repository.CopyRepository;
@@ -45,6 +48,9 @@ public class LoadCsvService {
 	
     @Autowired
     ReservationRepository rr;
+	
+    @Autowired
+    UserService us;
     
 	Map<String,Author> authorMap = new HashMap<>();
 
@@ -53,6 +59,19 @@ public class LoadCsvService {
     @PostConstruct
     public void init() {
 //    	loadCsv();
+		User admin = new User("Admin", "", "admin@admin.nl", "admin", true);
+		admin.setId(1);
+		us.addUser(admin);
+		User trainee = new User("Trainee", "", "trainee@trainee.nl", "trainee", false);
+		trainee.setId(2);
+		us.addUser(trainee);
+		
+		Reservation r1 = new Reservation(cr.findAll().get(0), trainee, LocalDate.now(), null, "");
+		r1.setId(1);
+		rr.save(r1);
+		Reservation r2 = new Reservation(cr.findAll().get(1), admin, LocalDate.now(), null, "");
+		r2.setId(2);
+		rr.save(r2);
     }
     
     /* Loads the data of the csv file "data_cleaned.csv".

@@ -1,19 +1,20 @@
 package nl.workingtalent.backend.dto;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 public class ReservationDto {
 	private long id;
 	private CopyDto copy;
 	private UserDto user;
-	private Date startDate;
-	private Date endDate;
+	private LocalDate startDate;
+	private LocalDate endDate;
 	private String status;
 	
 	//Constructors
 	public ReservationDto() {}
 
-	public ReservationDto(CopyDto copy, UserDto user, Date startDate, Date endDate, String status) {
+	public ReservationDto(CopyDto copy, UserDto user, LocalDate startDate, LocalDate endDate, String status) {
 		this.copy = copy;
 		this.user = user;
 		this.startDate = startDate;
@@ -46,19 +47,19 @@ public class ReservationDto {
 		return user;
 	}
 
-	public Date getStartDate() {
+	public LocalDate getStartDate() {
 		return startDate;
 	}
 
-	public void setStartDate(Date startDate) {
+	public void setStartDate(LocalDate startDate) {
 		this.startDate = startDate;
 	}
 
-	public Date getEndDate() {
+	public LocalDate getEndDate() {
 		return endDate;
 	}
 
-	public void setEndDate(Date endDate) {
+	public void setEndDate(LocalDate endDate) {
 		this.endDate = endDate;
 	}
 
