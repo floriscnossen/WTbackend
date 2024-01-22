@@ -19,6 +19,7 @@ public class BookSaveDto {
     private String info;
     private float rating;
     private String edition;
+    private String imageUrl;
 
     //Getters & setters
     public String getTitle() {
@@ -131,5 +132,13 @@ public class BookSaveDto {
 
 	public void setCopies(List<Long> copies) {
 		this.copies = copies;
+	}
+
+	public String getImageUrl() {
+		return imageUrl;
+	}
+
+	public void setImageUrl(String imageUrl) {
+		this.imageUrl = imageUrl;
 	}
 }

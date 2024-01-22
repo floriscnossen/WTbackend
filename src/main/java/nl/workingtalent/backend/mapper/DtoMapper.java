@@ -50,7 +50,7 @@ public class DtoMapper {
 	public BookDto toDto(Book book) {
 		BookDto b = new BookDto(book.getId(), book.getTitle(), toDto(book.getAuthor()), book.getDescription(), book.getReleaseDate(), 
 				book.getIsbnNumber(), book.getPublisher(), book.getPageCount(), book.getRelatedCourses(), book.getFormat(), book.getInfo(), 
-				book.getRating(), book.getEdition());
+				book.getRating(), book.getEdition(), book.getImageUrl());
 		if (book.getTags() == null) {
 			b.setTags(new ArrayList<String>());
 		}

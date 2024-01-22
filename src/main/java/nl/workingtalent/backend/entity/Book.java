@@ -51,6 +51,8 @@ public class Book {
     private String info;
     private float rating;
     private String edition;
+    
+    private String imageUrl;
 
     
     //Constructors
@@ -68,7 +70,8 @@ public class Book {
                 String format,
                 String info,
                 float rating,
-                String edition) {
+                String edition,
+                String imageUrl) {
         this.title = title;
         this.author = author;
         this.description = description;
@@ -82,6 +85,7 @@ public class Book {
         this.info = info;
         this.rating = rating;
         this.edition = edition;
+        this.imageUrl = imageUrl;
     }
 
     //Getters & Setters
@@ -213,8 +217,16 @@ public class Book {
 		this.copies = copies;
 	}
 	
-	//Methods
+	public String getImageUrl() {
+		return imageUrl;
+	}
+
+	public void setImageUrl(String imageUrl) {
+		this.imageUrl = imageUrl;
+	}
 	
+	//Methods
+
 	public BookDto toDto() {
 		BookDto b = new BookDto();
 		b.setId(id);

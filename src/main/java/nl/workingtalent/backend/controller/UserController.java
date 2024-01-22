@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import at.favre.lib.crypto.bcrypt.BCrypt;
 import jakarta.annotation.PostConstruct;
 import nl.workingtalent.backend.dto.UserDto;
 import nl.workingtalent.backend.dto.UserSaveDto;
@@ -59,4 +60,18 @@ public class UserController {
 	public void deleteUser(@PathVariable("id") long id) {
 		us.deleteUser(id);
 	}
+	
+	@PostMapping("login")
+	public void login(@RequestBody Login login) {
+		User user = us.getUserByEmail(login.email).get();
+		if (login.password == user.getPassword()) { // BCrypt.verifyer().verify(login.password.toCharArray(), user.getPassword()).verified
+			
+		}
+//		String pwHash = BCrypt.withDefaults().hashToString(10, password.toCharArray());
+	}
+}
+
+class Login {
+	public String email;
+	public String password;
 }

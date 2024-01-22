@@ -20,13 +20,14 @@ public class BookDto {
     private String info;
     private float rating;
     private String edition;
+    private String imageUrl;
 
     //Constructors
     public BookDto() {}
 
 	public BookDto(long id, String title, AuthorDto author, String description, LocalDate releaseDate,
 			String isbnNumber, String publisher, int pageCount, String relatedCourses, String format, String info,
-			float rating, String edition) {
+			float rating, String edition, String imageUrl) {
 		this.id = id;
 		this.title = title;
 		this.author = author;
@@ -40,6 +41,7 @@ public class BookDto {
 		this.info = info;
 		this.rating = rating;
 		this.edition = edition;
+		this.imageUrl = imageUrl;
 	}
 
 	//Getters & setters
@@ -161,5 +163,13 @@ public class BookDto {
 
 	public void setCopies(List<Long> copies) {
 		this.copies = copies;
+	}
+
+	public String getImageUrl() {
+		return imageUrl;
+	}
+
+	public void setImageUrl(String imageUrl) {
+		this.imageUrl = imageUrl;
 	}
 }
