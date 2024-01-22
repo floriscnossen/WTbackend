@@ -24,7 +24,7 @@ import nl.workingtalent.backend.service.AuthorService;
 
 @RestController
 @RequestMapping(path = "author")
-@CrossOrigin(maxAge = 3600)
+@CrossOrigin
 public class AuthorController {
 	@Autowired
 	AuthorService as;
