@@ -1,5 +1,6 @@
 package nl.workingtalent.backend.controller;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -50,7 +51,6 @@ public class ReservationController {
 	
 	@PostMapping
 	public void addReservation(@RequestBody ReservationSaveDto reservationDto) {
-		Reservation reservation = mapper.toEntity(reservationDto);
 		rs.addReservation(mapper.toEntity(reservationDto));
 	}
 	
