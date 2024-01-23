@@ -32,6 +32,7 @@ public class DtoMapper {
 	UserService us;
 	
 	public AuthorDto toDto(Author author) {
+		if (author == null) return null;
 		AuthorDto a = new AuthorDto(author.getId(), author.getName(), author.getBirthYear(), author.getNationality());
 		if (author.getBooks() == null) {
 			a.setBooks(new ArrayList<Long>());
@@ -43,10 +44,12 @@ public class DtoMapper {
 	}
 	
 	public Author toEntity(AuthorSaveDto a) {
+		if (a == null) return null;
 		return new Author(a.getName(), a.getBirthYear(), a.getNationality());
 	}
 	
 	public BookDto toDto(Book book) {
+		if (book == null) return null;
 		BookDto b = new BookDto(book.getId(), book.getTitle(), toDto(book.getAuthor()), book.getDescription(), book.getReleaseDate(), 
 				book.getIsbnNumber(), book.getPublisher(), book.getPageCount(), book.getRelatedCourses(), book.getFormat(), book.getInfo(), 
 				book.getRating(), book.getEdition(), book.getImageUrl());
@@ -72,16 +75,19 @@ public class DtoMapper {
 	
 	/* TODO: Book */
 	public Book toEntity(BookSaveDto b) {
+		if (b == null) return null;
 		return new Book();
 	}
 	
 	public CopyDto toDto(Copy copy) {
+		if (copy == null) return null;
 		CopyDto c = new CopyDto(copy.getId(),toDto(copy.getBook()), copy.isAvailable());
 		//TODO: Misschien de reservations doorsturen van de huidige user of alle users voor admins?
 		return c;
 	}
 	
 	public Copy toEntity(CopySaveDto c) {
+		if (c == null) return null;
 		Optional<Book> optionalBook = bs.getBookById(c.getBookId());
 		if (optionalBook.isEmpty()) {
 			return null;
@@ -90,6 +96,7 @@ public class DtoMapper {
 	}
 	
 	public ReservationDto toDto(Reservation reservation) {
+		if (reservation == null) return null;
 		return new ReservationDto(
 				toDto(reservation.getCopy()), 
 				toDto(reservation.getUser()), 
@@ -99,6 +106,7 @@ public class DtoMapper {
 	}
 	
 	public Reservation toEntity(ReservationSaveDto r) {
+		if (r == null) return null;
 		Optional<Copy> optionalCopy = cs.getCopyById(r.getCopyId());
 		Optional<User> optionalUser = us.getUserById(r.getUserId());
 		Optional<Book> optionalBook = bs.getBookById(r.getBookId());
@@ -117,6 +125,7 @@ public class DtoMapper {
 	}
 	
 	public TagDto toDto(Tag tag) {
+		if (tag == null) return null;
 		TagDto t = new TagDto(tag.getId(),tag.getName());
 		if (tag.getBooks() == null) {
 			t.setBooks(new ArrayList<Long>());
@@ -128,14 +137,17 @@ public class DtoMapper {
 	}
 	
 	public Tag toEntity(TagSaveDto t) {
+		if (t == null) return null;
 		return new Tag(t.getName());
 	}
 	
 	public UserDto toDto(User user) {
+		if (user == null) return null;
 		return new UserDto(user.getId(), user.getFirstName(), user.getLastName(), user.getEmail(), user.isAdmin());
 	}
 	
 	public User toEntity(UserSaveDto u) {
+		if (u == null) return null;
 		return new User(u.getFirstName(), u.getLastName(), u.getEmail(), u.getPassword(), u.isAdmin());
 	}
 }
