@@ -1,5 +1,6 @@
 package nl.workingtalent.backend.mapper;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -113,7 +114,10 @@ public class DtoMapper {
 		if (optionalUser.isEmpty()) {
 			return null;
 		}
-		Reservation reservation = new Reservation(optionalUser.get(),r.getStartDate(), r.getEndDate(),r.getStatus());
+		LocalDate startDate = r.getStartDate();
+		if (startDate == null) startDate = LocalDate.now();
+		
+		Reservation reservation = new Reservation(optionalUser.get(),startDate, r.getEndDate(),r.getStatus());
 		if (!optionalBook.isEmpty()) {
 			reservation.setBook(optionalBook.get());
 		}
