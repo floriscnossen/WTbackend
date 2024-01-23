@@ -1,15 +1,15 @@
 package nl.workingtalent.backend.entity;
 
+import java.time.LocalDate;
 import java.util.Date;
-import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import jakarta.persistence.*;
+import nl.workingtalent.backend.dto.ReservationDto;
 
 @Entity
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Reservation {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,10 +23,24 @@ public class Reservation {
 	private User user;
 
 	@Column(nullable = false, length = 100)
-	private Date date;
+	private LocalDate startDate;
+
+	@Column(nullable = true, length = 100)
+	private LocalDate endDate;
 	
 	@Column(nullable = true, length = 100)
 	private String status;
+	
+	//Constructors
+	public Reservation() {}
+
+	public Reservation(Copy copy, User user, LocalDate startDate, LocalDate endDate, String status) {
+		this.copy = copy;
+		this.user = user;
+		this.startDate = startDate;
+		this.endDate = endDate;
+		this.status = status;
+	}
 
 	//Getters and setters
 	public long getId() {
@@ -53,16 +67,20 @@ public class Reservation {
 		return user;
 	}
 
-	public void setUserId(User user){
-		this.user = user;
+	public LocalDate getStartDate() {
+		return startDate;
 	}
 
-	public Date getDate() {
-		return date;
+	public void setStartDate(LocalDate startDate) {
+		this.startDate = startDate;
 	}
 
-	public void setDate(Date date) {
-		this.date = date;
+	public LocalDate getEndDate() {
+		return endDate;
+	}
+
+	public void setEndDate(LocalDate endDate) {
+		this.endDate = endDate;
 	}
 
 	public String getStatus() {
@@ -71,6 +89,18 @@ public class Reservation {
 
 	public void setStatus(String status) {
 		this.status = status;
+	}
+	
+	//Methods
+	
+	public ReservationDto toDto() {
+		ReservationDto r = new ReservationDto();
+		r.setId(id);
+		r.setCopy(copy.toDto());
+		r.setUser(user.toDto());
+		r.setStartDate(startDate);
+		r.setStatus(status);
+		return r;
 	}
 	
 }

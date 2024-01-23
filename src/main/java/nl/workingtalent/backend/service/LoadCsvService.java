@@ -3,6 +3,7 @@ package nl.workingtalent.backend.service;
 import java.io.FileReader;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,10 +20,13 @@ import jakarta.annotation.PostConstruct;
 import nl.workingtalent.backend.entity.Author;
 import nl.workingtalent.backend.entity.Book;
 import nl.workingtalent.backend.entity.Copy;
+import nl.workingtalent.backend.entity.Reservation;
 import nl.workingtalent.backend.entity.Tag;
+import nl.workingtalent.backend.entity.User;
 import nl.workingtalent.backend.repository.AuthorRepository;
 import nl.workingtalent.backend.repository.BookRepository;
 import nl.workingtalent.backend.repository.CopyRepository;
+import nl.workingtalent.backend.repository.ReservationRepository;
 import nl.workingtalent.backend.repository.TagRepository;
 
 @Service
@@ -41,6 +45,12 @@ public class LoadCsvService {
 	
     @Autowired
     CopyRepository cr;
+	
+    @Autowired
+    ReservationRepository rr;
+	
+    @Autowired
+    UserService us;
     
 	Map<String,Author> authorMap = new HashMap<>();
 
@@ -49,6 +59,19 @@ public class LoadCsvService {
     @PostConstruct
     public void init() {
     	loadCsv();
+		User admin = new User("Admin", "", "admin@admin.nl", "admin", true);
+		admin.setId(1);
+		us.addUser(admin);
+		User trainee = new User("Trainee", "", "trainee@trainee.nl", "trainee", false);
+		trainee.setId(2);
+		us.addUser(trainee);
+		
+		Reservation r1 = new Reservation(cr.findAll().get(0), trainee, LocalDate.now(), null, "");
+		r1.setId(1);
+		rr.save(r1);
+		Reservation r2 = new Reservation(cr.findAll().get(1), admin, LocalDate.now(), null, "");
+		r2.setId(2);
+		rr.save(r2);
     }
     
     /* Loads the data of the csv file "data_cleaned.csv".
@@ -57,6 +80,7 @@ public class LoadCsvService {
      *   'pages', 'related_courses', 'format', 'rating', edition'.
      */
     public void loadCsv() {
+    	rr.deleteAll();
     	cr.deleteAll();
     	br.deleteAll();
     	ar.deleteAll();
@@ -109,33 +133,27 @@ public class LoadCsvService {
     /* Returns the author with a given name or creates it.
      * TODO: Maybe use ar instead of authorMap. */
     public Author getAuthorByName(String authorName, String authorBirthYear) {
-    	Author author;
     	if (authorMap.containsKey(authorName)) {
-    		author = authorMap.get(authorName);
+    		return authorMap.get(authorName);
     	}
-    	else {
-    		author = new Author();
-    		author.setName(authorName);
-    		try { author.setBirthYear((int) Float.parseFloat(authorBirthYear));} catch (NumberFormatException e) {}
-    		author = ar.save(author);
-    		authorMap.put(authorName, author);
-    	}
+    	
+		Author author = new Author(authorName);
+		try { author.setBirthYear((int) Float.parseFloat(authorBirthYear));} 
+		catch (NumberFormatException e) {}
+		author = ar.save(author);
+		authorMap.put(authorName, author);
     	return author;
     }
 
     /* Returns the tag with a given name or creates it.
      * TODO: Maybe use tr instead of tagMap. */
     public Tag getTagByName(String tagName) {
-    	Tag tag;
     	if (tagMap.containsKey(tagName)) {
-    		tag = tagMap.get(tagName);
+    		return tagMap.get(tagName);
     	}
-    	else {
-    		tag = new Tag();
-    		tag.setName(tagName);
-    		tag = tr.save(tag);
-    		tagMap.put(tagName, tag);
-    	}
+    	
+		Tag tag = tr.save(new Tag(tagName));
+		tagMap.put(tagName, tag);
     	return tag;
     }
 }

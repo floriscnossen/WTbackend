@@ -1,5 +1,6 @@
 package nl.workingtalent.backend.entity;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -10,7 +11,6 @@ import jakarta.persistence.*;
 import nl.workingtalent.backend.dto.AuthorDto;
 
 @Entity
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Author {
 
 	@Id
@@ -29,6 +29,24 @@ public class Author {
 	@OneToMany(mappedBy = "author")
 	private List<Book> books;
 	
+	//Constructors
+	public Author() {}
+	
+	public Author(String name) {
+		this.name = name;
+	}
+	
+	public Author(String name, int birthYear) {
+		this.name = name;
+		this.birthYear = birthYear;
+	}
+
+	public Author(String name, int birthYear, String nationality) {
+		this.name = name;
+		this.birthYear = birthYear;
+		this.nationality = nationality;
+	}
+
 	//Getters and setters
 	public long getId() {
 		return id;
@@ -78,7 +96,12 @@ public class Author {
 		a.setBirthYear(birthYear);
 		a.setName(name);
 		a.setNationality(nationality);
-		a.setBooks(books.stream().map(b -> b.getId()).collect(Collectors.toList()));
+		if (books == null) {
+			a.setBooks(new ArrayList<Long>());
+		}
+		else {
+			a.setBooks(books.stream().map(b -> b.getId()).collect(Collectors.toList()));
+		}
 		return a;
 	}
 }

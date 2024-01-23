@@ -5,6 +5,7 @@ import nl.workingtalent.backend.controller.AuthorController;
 import nl.workingtalent.backend.dto.BookDto;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -15,7 +16,6 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 @Entity
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Book {
 
     @Id
@@ -51,10 +51,13 @@ public class Book {
     private String info;
     private float rating;
     private String edition;
+    
+    private String imageUrl;
+    private String source;
 
-    public Book() {
-        //Empty constructor
-    }
+    
+    //Constructors
+    public Book() { }
 
     public Book(String title,
                 Author author,
@@ -68,7 +71,9 @@ public class Book {
                 String format,
                 String info,
                 float rating,
-                String edition) {
+                String edition,
+                String imageUrl,
+                String source) {
         this.title = title;
         this.author = author;
         this.description = description;
@@ -82,9 +87,11 @@ public class Book {
         this.info = info;
         this.rating = rating;
         this.edition = edition;
+        this.imageUrl = imageUrl;
+        this.source = source;
     }
 
-    //Getters & Listters
+    //Getters & Setters
     public void setId(long id) {
         this.id = id;
     }
@@ -213,8 +220,23 @@ public class Book {
 		this.copies = copies;
 	}
 	
-	//Methods
+	public String getImageUrl() {
+		return imageUrl;
+	}
+
+	public void setImageUrl(String imageUrl) {
+		this.imageUrl = imageUrl;
+	}
 	
+	public String getSource() {
+		return source;
+	}
+
+	public void setSource(String source) {
+		this.source = source;
+	}
+	//Methods
+
 	public BookDto toDto() {
 		BookDto b = new BookDto();
 		b.setId(id);
@@ -227,10 +249,20 @@ public class Book {
 		b.setIsbnNumber(isbnNumber);
 		b.setPublisher(publisher);
 		b.setPageCount(pageCount);
-		b.setTags(tags.stream().map(t -> t.getName()).collect(Collectors.toList()));
+		if (tags == null) {
+			b.setTags(new ArrayList<String>());
+		}
+		else {
+			b.setTags(tags.stream().map(t -> t.getName()).collect(Collectors.toList()));
+		}
 		b.setRating(rating);
 		b.setRelatedCourses(relatedCourses);
-		b.setCopies(copies.stream().map(c -> c.getId()).collect(Collectors.toList()));
+		if (copies == null) {
+			b.setCopies(new ArrayList<Long>());
+		}
+		else {
+			b.setCopies(copies.stream().map(c -> c.getId()).collect(Collectors.toList()));
+		}
 		return b;
 	}
 }

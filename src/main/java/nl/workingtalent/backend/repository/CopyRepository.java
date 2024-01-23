@@ -10,7 +10,4 @@ import nl.workingtalent.backend.entity.Copy;
 
 @Repository
 public interface CopyRepository extends JpaRepository<Copy, Long> {
-	
-//	@Query("SELECT u FROM User u WHERE u.name =?1")
-//	Optional<User> getUserByName(String name);
 }

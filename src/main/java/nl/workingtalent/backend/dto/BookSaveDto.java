@@ -3,10 +3,9 @@ package nl.workingtalent.backend.dto;
 import java.time.LocalDate;
 import java.util.List;
 
-public class BookDto {
-    private long id;
+public class BookSaveDto {
     private String title;
-    private AuthorDto author;
+    private long authorId;
 
     private String description;
     private List<String> tags;
@@ -22,37 +21,7 @@ public class BookDto {
     private String edition;
     private String imageUrl;
 
-    //Constructors
-    public BookDto() {}
-
-	public BookDto(long id, String title, AuthorDto author, String description, LocalDate releaseDate,
-			String isbnNumber, String publisher, int pageCount, String relatedCourses, String format, String info,
-			float rating, String edition, String imageUrl) {
-		this.id = id;
-		this.title = title;
-		this.author = author;
-		this.description = description;
-		this.releaseDate = releaseDate;
-		this.isbnNumber = isbnNumber;
-		this.publisher = publisher;
-		this.pageCount = pageCount;
-		this.relatedCourses = relatedCourses;
-		this.format = format;
-		this.info = info;
-		this.rating = rating;
-		this.edition = edition;
-		this.imageUrl = imageUrl;
-	}
-
-	//Getters & setters
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public long getId() {
-        return id;
-    }
-
+    //Getters & setters
     public String getTitle() {
         return title;
     }
@@ -61,12 +30,12 @@ public class BookDto {
         this.title = title;
     }
 
-    public AuthorDto getAuthor() {
-        return author;
+    public long getAuthorId() {
+        return authorId;
     }
 
-    public void setAuthor(AuthorDto author) {
-        this.author = author;
+    public void setAuthorId(long authorId) {
+        this.authorId = authorId;
     }
 
     public String getDescription() {

@@ -21,4 +21,20 @@ public class UserService {
     public Optional<User> getUserById(long id) {
 		return ur.findById(id);
 	}
+    
+    public Optional<User> getUserByEmail(String email) {
+		return ur.findByEmail(email);
+	}
+    
+    public User addUser(User user) {
+    	return ur.save(user);
+    }
+    
+    public User updateUser(User user) {
+    	return ur.save(user);
+    }
+    
+    public void deleteUser(long id) {
+    	ur.deleteById(id);
+    }
 }

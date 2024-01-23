@@ -2,6 +2,7 @@ package nl.workingtalent.backend;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.kafka.annotation.KafkaListener;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -13,9 +14,11 @@ import nl.workingtalent.backend.repository.AuthorRepository;
 import nl.workingtalent.backend.repository.BookRepository;
 import nl.workingtalent.backend.repository.TagRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.kafka.annotation.KafkaListener;
+//import org.springframework.kafka.annotation.KafkaListener;
 
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 import java.util.*;
 
 @SpringBootApplication
@@ -60,6 +63,21 @@ public class BackendApplication {
 //		Parse books, add author and tags, then save
 		Book book = new Book();
 		book.setTitle(String.valueOf(jsonNode.get("title")));
+		book.setDescription(String.valueOf(jsonNode.get("description")));
+
+		
+		try {book.setReleaseDate(LocalDate.parse(String.valueOf(jsonNode.get("releaseDate")).replaceAll("\"", "")));
+        }
+		catch (DateTimeParseException e) {System.out.println(e.toString());}
+//		book.setReleaseDate(LocalDate.parse(String.valueOf(jsonNode.get("releaseDate")).replaceAll("\"", "")));
+		book.setIsbnNumber(String.valueOf(jsonNode.get("isbnNumber")));
+		book.setPublisher(String.valueOf(jsonNode.get("publisher")));
+		try { book.setPageCount((int)
+				Float.parseFloat(String.valueOf(jsonNode.get("pageCount"))));}
+		catch (NumberFormatException f) {System.out.println(f.toString());}
+//		book.setPageCount(Integer.parseInt(String.valueOf(jsonNode.get("pageCount"))));
+		book.setImageUrl(String.valueOf(jsonNode.get("imageUrl")));
+		book.setSource(String.valueOf(jsonNode.get("source")));
 		book.setAuthor(author);
 		book.setTags(tags);
 		br.save(book);
