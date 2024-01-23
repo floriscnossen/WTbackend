@@ -21,6 +21,7 @@ public class BookDto {
     private float rating;
     private String edition;
     private String imageUrl;
+    private boolean available;
 
     //Constructors
     public BookDto() {}
@@ -171,5 +172,13 @@ public class BookDto {
 
 	public void setImageUrl(String imageUrl) {
 		this.imageUrl = imageUrl;
+	}
+
+	public boolean isAvailable() {
+		return available;
+	}
+
+	public void setAvailable(boolean available) {
+		this.available = available;
 	}
 }

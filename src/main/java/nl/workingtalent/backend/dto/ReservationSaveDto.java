@@ -5,6 +5,7 @@ import java.util.Date;
 
 public class ReservationSaveDto {
 	private long copyId;
+	private long bookId;
 	private long userId;
 	private LocalDate startDate;
 	private LocalDate endDate;
@@ -17,6 +18,14 @@ public class ReservationSaveDto {
 
 	public void setCopyId(long copyId) {
 		this.copyId = copyId;
+	}
+
+	public long getBookId() {
+		return bookId;
+	}
+
+	public void setBookId(long bookId) {
+		this.bookId = bookId;
 	}
 
 	public void setUserId(long userId) {

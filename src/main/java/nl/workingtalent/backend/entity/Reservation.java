@@ -19,6 +19,9 @@ public class Reservation {
 	private Copy copy;
 
 	@ManyToOne
+	private Book book;
+
+	@ManyToOne
 	@JoinColumn(name = "user_id", nullable = false)
 	private User user;
 
@@ -33,6 +36,13 @@ public class Reservation {
 	
 	//Constructors
 	public Reservation() {}
+
+	public Reservation(User user, LocalDate startDate, LocalDate endDate, String status) {
+		this.user = user;
+		this.startDate = startDate;
+		this.endDate = endDate;
+		this.status = status;
+	}
 
 	public Reservation(Copy copy, User user, LocalDate startDate, LocalDate endDate, String status) {
 		this.copy = copy;
@@ -91,8 +101,16 @@ public class Reservation {
 		this.status = status;
 	}
 	
-	//Methods
+	public Book getBook() {
+		return book;
+	}
+
+	public void setBook(Book book) {
+		this.book = book;
+	}
 	
+	//Methods
+
 	public ReservationDto toDto() {
 		ReservationDto r = new ReservationDto();
 		r.setId(id);

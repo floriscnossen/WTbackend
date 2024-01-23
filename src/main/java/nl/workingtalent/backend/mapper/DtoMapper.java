@@ -46,7 +46,6 @@ public class DtoMapper {
 		return new Author(a.getName(), a.getBirthYear(), a.getNationality());
 	}
 	
-	/* TODO: Book */
 	public BookDto toDto(Book book) {
 		BookDto b = new BookDto(book.getId(), book.getTitle(), toDto(book.getAuthor()), book.getDescription(), book.getReleaseDate(), 
 				book.getIsbnNumber(), book.getPublisher(), book.getPageCount(), book.getRelatedCourses(), book.getFormat(), book.getInfo(), 
@@ -63,9 +62,15 @@ public class DtoMapper {
 		else {
 			b.setCopies(book.getCopies().stream().map(c -> c.getId()).collect(Collectors.toList()));
 		}
+		for (Copy copy : book.getCopies()) {
+			if (copy.isAvailable()) {
+				b.setAvailable(true);
+			}
+		}
 		return b;
 	}
 	
+	/* TODO: Book */
 	public Book toEntity(BookSaveDto b) {
 		return new Book();
 	}
@@ -96,10 +101,19 @@ public class DtoMapper {
 	public Reservation toEntity(ReservationSaveDto r) {
 		Optional<Copy> optionalCopy = cs.getCopyById(r.getCopyId());
 		Optional<User> optionalUser = us.getUserById(r.getUserId());
-		if (optionalCopy.isEmpty() || optionalUser.isEmpty()) {
+		Optional<Book> optionalBook = bs.getBookById(r.getBookId());
+		if (optionalUser.isEmpty()) {
 			return null;
 		}
-		return new Reservation(optionalCopy.get(),optionalUser.get(),r.getStartDate(), r.getEndDate(),r.getStatus());
+		Reservation reservation = new Reservation(optionalUser.get(),r.getStartDate(), r.getEndDate(),r.getStatus());
+		if (!optionalBook.isEmpty()) {
+			reservation.setBook(optionalBook.get());
+		}
+		if (!optionalCopy.isEmpty()) {
+			reservation.setCopy(optionalCopy.get());
+		}
+		return reservation;
+//		return new Reservation(optionalCopy.get(),optionalUser.get(),r.getStartDate(), r.getEndDate(),r.getStatus());
 	}
 	
 	public TagDto toDto(Tag tag) {

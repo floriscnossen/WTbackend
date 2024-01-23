@@ -30,7 +30,7 @@ public class Book {
     private Author author;
 
     @OneToMany(mappedBy = "book")
-    private List<Copy> copy;
+    private List<Copy> reservations;
 
     private String description;
     @ManyToMany
@@ -200,14 +200,6 @@ public class Book {
     public void setEdition(String edition) {
         this.edition = edition;
     }
-
-	public List<Copy> getCopy() {
-		return copy;
-	}
-
-	public void setCopy(List<Copy> copy) {
-		this.copy = copy;
-	}
 
 	public List<Copy> getCopies() {
 		return copies;
