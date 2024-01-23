@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -62,12 +63,8 @@ public class UserController {
 	}
 	
 	@PostMapping("login")
-	public void login(@RequestBody Login login) {
-		User user = us.getUserByEmail(login.email).get();
-		if (login.password == user.getPassword()) { // BCrypt.verifyer().verify(login.password.toCharArray(), user.getPassword()).verified
-			
-		}
-//		String pwHash = BCrypt.withDefaults().hashToString(10, password.toCharArray());
+	public String login(@RequestBody Login login) {
+		return us.login(login.email, login.password);
 	}
 }
 
