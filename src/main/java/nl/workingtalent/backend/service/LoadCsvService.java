@@ -58,7 +58,7 @@ public class LoadCsvService {
 
     @PostConstruct
     public void init() {
-//    	loadCsv();
+    	loadCsv();
 		User admin = new User("Admin", "", "admin@admin.nl", "admin", true);
 		admin.setId(1);
 		us.addUser(admin);

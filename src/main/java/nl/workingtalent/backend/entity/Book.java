@@ -53,6 +53,7 @@ public class Book {
     private String edition;
     
     private String imageUrl;
+    private String source;
 
     
     //Constructors
@@ -71,7 +72,8 @@ public class Book {
                 String info,
                 float rating,
                 String edition,
-                String imageUrl) {
+                String imageUrl,
+                String source) {
         this.title = title;
         this.author = author;
         this.description = description;
@@ -86,6 +88,7 @@ public class Book {
         this.rating = rating;
         this.edition = edition;
         this.imageUrl = imageUrl;
+        this.source = source;
     }
 
     //Getters & Setters
@@ -225,6 +228,13 @@ public class Book {
 		this.imageUrl = imageUrl;
 	}
 	
+	public String getSource() {
+		return source;
+	}
+
+	public void setSource(String source) {
+		this.source = source;
+	}
 	//Methods
 
 	public BookDto toDto() {
