@@ -6,6 +6,18 @@ public class ResponseDto {
 	
 	private String validationError;
 
+	public ResponseDto() {
+		super();
+		this.success = true;
+		this.validationError = null;
+	}
+
+	public ResponseDto(String validationError) {
+		super();
+		this.success = false;
+		this.validationError = validationError;
+	}
+
 	public ResponseDto(boolean success, String validationError) {
 		super();
 		this.success = success;
