@@ -40,7 +40,7 @@ public class UserService {
     	ur.deleteById(id);
     }
     
-    public String login(String email, String password) {
+    public User login(String email, String password) {
     	Optional<User> optionalUser = ur.findByEmail(email);
     	System.out.println(email);
     	if (optionalUser.isEmpty()) {
@@ -53,6 +53,6 @@ public class UserService {
 		}
 		user.setToken(RandomStringUtils.random(100, true, true));
 		user = ur.save(user);
-		return user.getToken();
+		return user;
     }
 }

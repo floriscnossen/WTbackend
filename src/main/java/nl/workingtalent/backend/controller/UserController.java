@@ -18,6 +18,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import at.favre.lib.crypto.bcrypt.BCrypt;
 import jakarta.annotation.PostConstruct;
+import jakarta.servlet.http.HttpServletRequest;
+import nl.workingtalent.backend.dto.LoginRequestDto;
+import nl.workingtalent.backend.dto.LoginResponseDto;
+import nl.workingtalent.backend.dto.ResponseDto;
 import nl.workingtalent.backend.dto.UserDto;
 import nl.workingtalent.backend.dto.UserSaveDto;
 import nl.workingtalent.backend.entity.Book;
@@ -51,10 +55,20 @@ public class UserController {
 	}
 	
 	@PutMapping("{id}")
-	public void updateUser(@PathVariable("id") long id, @RequestBody UserSaveDto userDto) {
-		User user = mapper.toEntity(userDto);
-		user.setId(id);
-		us.updateUser(user);
+	public ResponseDto updateUser(HttpServletRequest request, @PathVariable("id") long id, @RequestBody UserSaveDto userDto) {
+		User loggedInUser = (User)request.getAttribute("WT_USER");
+		if (loggedInUser != null) {
+			// Admin - LoggedInUser gelijk is aan de id
+			if (loggedInUser.isAdmin() || loggedInUser.getId() == id) {
+				User user = mapper.toEntity(userDto);
+				user.setId(id);
+				us.updateUser(user);
+
+				return new ResponseDto(true, null);
+			}
+		}
+
+		return new ResponseDto(false, "Authenticatie error");
 	}
 	
 	@DeleteMapping("{id}")
@@ -63,12 +77,13 @@ public class UserController {
 	}
 	
 	@PostMapping("login")
-	public String login(@RequestBody Login login) {
-		return us.login(login.email, login.password);
-	}
-}
+	public LoginResponseDto login(@RequestBody LoginRequestDto dto) {
+		User user = us.login(dto.getEmail(), dto.getPassword());
 
-class Login {
-	public String email;
-	public String password;
+		if (user != null) {
+			return new LoginResponseDto(user.getToken(), user.isAdmin(), user.getFirstName() + " " + user.getLastName());
+		} else {
+			return new LoginResponseDto();
+		}
+	}
 }
