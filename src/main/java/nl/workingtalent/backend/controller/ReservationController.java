@@ -16,8 +16,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import jakarta.servlet.http.HttpServletRequest;
 import nl.workingtalent.backend.dto.ReservationDto;
 import nl.workingtalent.backend.dto.ReservationSaveDto;
+import nl.workingtalent.backend.dto.ResponseDto;
 import nl.workingtalent.backend.entity.Book;
 import nl.workingtalent.backend.entity.Reservation;
 import nl.workingtalent.backend.entity.User;
@@ -35,34 +37,70 @@ public class ReservationController {
 	DtoMapper mapper;
 	
 	@GetMapping("all")
-	public List<ReservationDto> getReservations() {
-		return rs.getReservations().stream().map(mapper::toDto).collect(Collectors.toList());
+	public List<ReservationDto> getReservations(HttpServletRequest request) {
+		User loggedInUser = (User) request.getAttribute("WT_USER");
+		if (loggedInUser == null) {
+			return null;
+		}
+		if (loggedInUser.isAdmin()) {
+			return rs.getReservations().stream().map(mapper::toDto).collect(Collectors.toList());
+		}
+		return rs.getReservationsByUser(loggedInUser.getId()).stream().map(mapper::toDto).collect(Collectors.toList());
+		
 	}
 	
 	@GetMapping("{id}")
-	public Optional<ReservationDto> getReservationById(@PathVariable("id") long id) {
-		return rs.getReservationById(id).map(mapper::toDto);
+	public Optional<ReservationDto> getReservationById(HttpServletRequest request, @PathVariable("id") long id) {
+		User loggedInUser = (User) request.getAttribute("WT_USER");
+		Optional<Reservation> optionalReservation = rs.getReservationById(id);
+		if (loggedInUser == null || optionalReservation.isEmpty()) {
+			return Optional.empty();
+		}
+		
+		if (loggedInUser.isAdmin() || loggedInUser.getId() == optionalReservation.get().getUser().getId()) {
+			return optionalReservation.map(mapper::toDto);
+		}
+		
+		return Optional.empty();
 	}
 	
 	@GetMapping("user/{id}")
-	public List<ReservationDto> getReservationsByUser(@PathVariable("id") long id) {
-		return rs.getReservationsByUser(id).stream().map(mapper::toDto).collect(Collectors.toList());
+	public List<ReservationDto> getReservationsByUser(HttpServletRequest request, @PathVariable("id") long id) {
+		User loggedInUser = (User) request.getAttribute("WT_USER");
+		if (loggedInUser == null) {
+			return null;
+		}
+		
+		if (loggedInUser.isAdmin() || loggedInUser.getId() == id) {
+			return rs.getReservationsByUser(id).stream().map(mapper::toDto).collect(Collectors.toList());
+		}
+
+		return null;
 	}
 	
 	@PostMapping
-	public void addReservation(@RequestBody ReservationSaveDto reservationDto) {
+	public void addReservation(HttpServletRequest request, @RequestBody ReservationSaveDto reservationDto) {
+		User loggedInUser = (User) request.getAttribute("WT_USER");
+		if (loggedInUser == null) {
+			return;
+		}
+		rs.addReservation(mapper.toEntity(reservationDto));
+	}
+	
+	@PostMapping("email")
+	public void addReservationByEmail(HttpServletRequest request, @RequestBody ReservationSaveDto reservationDto) {
 		rs.addReservation(mapper.toEntity(reservationDto));
 	}
 	
 	@PutMapping("{id}")
-	public void updateReservation(@PathVariable("id") long id, @RequestBody ReservationSaveDto reservationDto) {
+	public void updateReservation(HttpServletRequest request, @PathVariable("id") long id, @RequestBody ReservationSaveDto reservationDto) {
 		Reservation reservation = mapper.toEntity(reservationDto);
 		reservation.setId(id);
 		rs.updateReservation(reservation);
 	}
 	
 	@DeleteMapping("{id}")
-	public void deleteReservation(@PathVariable("id") long id) {
+	public void deleteReservation(HttpServletRequest request, @PathVariable("id") long id) {
 		rs.deleteReservation(id);
 	}
 }
