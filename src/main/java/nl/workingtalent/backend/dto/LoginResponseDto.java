@@ -10,18 +10,22 @@ public class LoginResponseDto {
 	
 	private String name;
 	
+	private Long id;
+	
+	
 	// Constructor als niet gelukt is
 	public LoginResponseDto() {
 		this.success = false;
 	}
 	
 	// Constructor als login wel gelukt is
-	public LoginResponseDto(String token, boolean admin, String name) {
+	public LoginResponseDto(String token, boolean admin, String name, Long id) {
 		super();
 		this.success = true;
 		this.token = token;
 		this.admin = admin;
 		this.name = name;
+		this.id = id;
 	}
 
 	public boolean isSuccess() {
@@ -54,6 +58,14 @@ public class LoginResponseDto {
 	
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
 	}
 	
 }

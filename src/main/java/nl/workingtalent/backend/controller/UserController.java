@@ -81,7 +81,7 @@ public class UserController {
 		User user = us.login(dto.getEmail(), dto.getPassword());
 
 		if (user != null) {
-			return new LoginResponseDto(user.getToken(), user.isAdmin(), user.getFirstName() + " " + user.getLastName());
+			return new LoginResponseDto(user.getToken(), user.isAdmin(), user.getFirstName() + " " + user.getLastName(), user.getId());
 		} else {
 			return new LoginResponseDto();
 		}
