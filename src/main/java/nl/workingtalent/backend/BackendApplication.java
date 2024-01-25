@@ -44,10 +44,21 @@ public class BackendApplication {
 		ObjectMapper objectMapper = new ObjectMapper();
 		JsonNode jsonNode = objectMapper.readTree(message);
 
+//		Check if ISBN number is already in database and exit if it is.
+		if (br.findByIsbnNumber(String.valueOf(jsonNode.get("isbnNumber"))).size() > 0) {
+			return;
+		}
+
+		System.out.println(message);
+
 //		Parse author and save
 		Author author = new Author();
 		author.setName(String.valueOf(jsonNode.get("author")));
 		ar.save(author);
+//		if (ar.findByName(author.getName()).size() == 0){
+//			System.out.println(author.getName() + "not found, saving!");
+//			ar.save(author);
+//		}
 
 //		Parse tags and save
 		JsonNode tagNode = jsonNode.get("tag");
@@ -56,6 +67,10 @@ public class BackendApplication {
 		for (int i = 0; i < tagNode.size(); i++) {
 			tagName = tagNode.get(i).asText();
 			Tag tag = new Tag(tagName);
+
+//			if (tr.findByName(tag.getName()).size() == 0 ) {
+//				tr.save(tag);
+//			}
 			tr.save(tag);
 			tags.add(tag);
 		}
@@ -80,6 +95,7 @@ public class BackendApplication {
 		book.setSource(String.valueOf(jsonNode.get("source")));
 		book.setAuthor(author);
 		book.setTags(tags);
+
 		br.save(book);
 	}
 
