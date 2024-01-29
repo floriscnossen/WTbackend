@@ -1,6 +1,7 @@
 package nl.workingtalent.backend.controller;
 
 import java.time.LocalDate;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -42,11 +43,24 @@ public class ReservationController {
 		if (loggedInUser == null) {
 			return null;
 		}
-		if (loggedInUser.isAdmin()) {
-			return rs.getReservations().stream().map(mapper::toDto).collect(Collectors.toList());
-		}
-		return rs.getReservationsByUser(loggedInUser.getId()).stream().map(mapper::toDto).collect(Collectors.toList());
 		
+		List<ReservationDto> reservations;
+		if (loggedInUser.isAdmin()) {
+			//return rs.getReservations().stream().map(mapper::toDto).collect(Collectors.toList());
+			reservations = rs.getReservations()
+		            .stream()
+		            .map(mapper::toDto)
+		            .sorted(Comparator.comparing(ReservationDto::getStartDate).reversed()) // Sort by startDate in descending order
+		            .collect(Collectors.toList());
+		} else {
+			reservations = rs.getReservationsByUser(loggedInUser.getId())
+		            .stream()
+		            .map(mapper::toDto)
+		            .sorted(Comparator.comparing(ReservationDto::getStartDate).reversed()) // Sort by startDate in descending order
+		            .collect(Collectors.toList());
+		}
+		//return rs.getReservationsByUser(loggedInUser.getId()).stream().map(mapper::toDto).collect(Collectors.toList());
+		return reservations;
 	}
 	
 	@GetMapping("{id}")
