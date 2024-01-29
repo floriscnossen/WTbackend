@@ -6,6 +6,7 @@ import java.util.Date;
 public class ReservationDto {
 	private long id;
 	private CopyDto copy;
+	private BookDto book;
 	private UserDto user;
 	private LocalDate startDate;
 	private LocalDate endDate;
@@ -14,8 +15,10 @@ public class ReservationDto {
 	//Constructors
 	public ReservationDto() {}
 
-	public ReservationDto(CopyDto copy, UserDto user, LocalDate startDate, LocalDate endDate, String status) {
+	public ReservationDto(long id, CopyDto copy, BookDto book, UserDto user, LocalDate startDate, LocalDate endDate, String status) {
+		this.id = id;
 		this.copy = copy;
+		this.book = book;
 		this.user = user;
 		this.startDate = startDate;
 		this.endDate = endDate;
@@ -37,6 +40,14 @@ public class ReservationDto {
 
 	public void setCopy(CopyDto copy) {
 		this.copy = copy;
+	}
+
+	public BookDto getBook() {
+		return book;
+	}
+
+	public void setBook(BookDto book) {
+		this.book = book;
 	}
 
 	public void setUser(UserDto user) {

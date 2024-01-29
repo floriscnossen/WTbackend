@@ -98,8 +98,9 @@ public class DtoMapper {
 	
 	public ReservationDto toDto(Reservation reservation) {
 		if (reservation == null) return null;
-		return new ReservationDto(
-				toDto(reservation.getCopy()), 
+		return new ReservationDto(reservation.getId(),
+				toDto(reservation.getCopy()),
+				toDto(reservation.getBook()),
 				toDto(reservation.getUser()), 
 				reservation.getStartDate(),
 				reservation.getEndDate(),
