@@ -71,10 +71,12 @@ public class LoadCsvService {
 		trainee.setId(2);
 		us.addUser(trainee);
 		
-		Reservation r1 = new Reservation(cr.findAll().get(0), trainee, LocalDate.now(), null, "");
+		Copy c1 = cr.findAll().get(0);
+		Reservation r1 = new Reservation(c1, c1.getBook(), trainee, LocalDate.now(), null, "");
 		r1.setId(1);
 		rr.save(r1);
-		Reservation r2 = new Reservation(cr.findAll().get(1), admin, LocalDate.now(), null, "");
+		Copy c2 = cr.findAll().get(1);
+		Reservation r2 = new Reservation(c2, c2.getBook(), admin, LocalDate.now(), null, "");
 		r2.setId(2);
 		rr.save(r2);
     }

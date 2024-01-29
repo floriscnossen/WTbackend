@@ -52,6 +52,15 @@ public class Reservation {
 		this.status = status;
 	}
 
+	public Reservation(Copy copy, Book book, User user, LocalDate startDate, LocalDate endDate, String status) {
+		this.copy = copy;
+		this.book = book;
+		this.user = user;
+		this.startDate = startDate;
+		this.endDate = endDate;
+		this.status = status;
+	}
+
 	//Getters and setters
 	public long getId() {
 		return id;
