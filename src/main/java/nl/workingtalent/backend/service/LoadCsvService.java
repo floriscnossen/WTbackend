@@ -29,6 +29,7 @@ import nl.workingtalent.backend.repository.BookRepository;
 import nl.workingtalent.backend.repository.CopyRepository;
 import nl.workingtalent.backend.repository.ReservationRepository;
 import nl.workingtalent.backend.repository.TagRepository;
+import nl.workingtalent.backend.status.ReservationStatus;
 
 @Service
 public class LoadCsvService {
@@ -72,11 +73,11 @@ public class LoadCsvService {
 		us.addUser(trainee);
 		
 		Copy c1 = cr.findAll().get(0);
-		Reservation r1 = new Reservation(c1, c1.getBook(), trainee, LocalDate.now(), null, "");
+		Reservation r1 = new Reservation(c1, c1.getBook(), trainee, LocalDate.now(), null, ReservationStatus.LOANED);
 		r1.setId(1);
 		rr.save(r1);
 		Copy c2 = cr.findAll().get(1);
-		Reservation r2 = new Reservation(c2, c2.getBook(), admin, LocalDate.now(), null, "");
+		Reservation r2 = new Reservation(c2, c2.getBook(), admin, LocalDate.now(), null, ReservationStatus.LOANED);
 		r2.setId(2);
 		rr.save(r2);
     }
