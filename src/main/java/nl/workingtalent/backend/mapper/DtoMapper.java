@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 
 import nl.workingtalent.backend.dto.*;
 import nl.workingtalent.backend.service.*;
+import nl.workingtalent.backend.status.ReservationStatus;
 import nl.workingtalent.backend.entity.*;
 
 @Component
@@ -109,7 +110,7 @@ public class DtoMapper {
 				toDto(reservation.getUser()), 
 				reservation.getStartDate(),
 				reservation.getEndDate(),
-				reservation.getStatus());
+				reservation.getStatus().toString());
 	}
 	
 	public Reservation toEntity(ReservationSaveDto r) {
@@ -123,7 +124,10 @@ public class DtoMapper {
 		LocalDate startDate = r.getStartDate();
 		if (startDate == null) startDate = LocalDate.now();
 		
-		Reservation reservation = new Reservation(optionalUser.get(),startDate, r.getEndDate(),r.getStatus());
+		ReservationStatus status = null; 
+		try { status = ReservationStatus.valueOf(r.getStatus()); } catch (Exception e) { }
+		
+		Reservation reservation = new Reservation(optionalUser.get(),startDate, r.getEndDate(), status);
 		if (!optionalBook.isEmpty()) {
 			reservation.setBook(optionalBook.get());
 		}

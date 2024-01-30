@@ -28,6 +28,7 @@ import nl.workingtalent.backend.entity.User;
 import nl.workingtalent.backend.mapper.DtoMapper;
 import nl.workingtalent.backend.service.CopyService;
 import nl.workingtalent.backend.service.ReservationService;
+import nl.workingtalent.backend.status.ReservationStatus;
 
 @RestController
 @RequestMapping(path = "reservation")
@@ -123,7 +124,16 @@ public class ReservationController {
 		if (loggedInUser == null) {
 			return new ResponseDto("Invalid login");
 		}
-		rs.addReservation(mapper.toEntity(reservationDto));
+		Reservation reservation = mapper.toEntity(reservationDto);
+		if (reservation.getCopy() == null) {
+			reservation.setStatus(ReservationStatus.RESERVED);
+		}
+		else {
+			reservation.setStatus(ReservationStatus.LOANED);
+			reservation.getCopy().setAvailable(false);
+			cs.updateCopy(reservation.getCopy());
+		}
+		rs.addReservation(reservation);
 		return new ResponseDto();
 	}
 
@@ -154,7 +164,10 @@ public class ReservationController {
 		if (copy.getBook().getId() != reservation.getBook().getId()) {
 			return new ResponseDto("Copy is from wrong book");
 		}
+		copy.setAvailable(false);
+		cs.updateCopy(copy);
 		reservation.setCopy(copy);
+		reservation.setStatus(ReservationStatus.LOANED);
 		rs.updateReservation(reservation);
 		return new ResponseDto();
 	}
