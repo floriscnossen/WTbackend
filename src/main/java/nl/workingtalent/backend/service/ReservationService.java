@@ -27,6 +27,14 @@ public class ReservationService {
 		return rr.findByUserIdOrderByStartDate(id);
 	}
     
+    public List<Reservation> getReservationsByTitle(String title) {
+		return rr.findByBookTitleOrderByStartDate(title);
+	}
+    
+    public List<Reservation> getReservationsByName(String firstName, String lastName) {
+		return rr.findByUserFirstNameAndUserLastNameOrderByStartDate(firstName, lastName);
+	}
+    
     public Reservation addReservation(Reservation reservation) {
     	return rr.save(reservation);
     }

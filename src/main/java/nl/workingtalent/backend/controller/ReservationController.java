@@ -92,15 +92,36 @@ public class ReservationController {
 		return null;
 	}
 	
-	@PostMapping
-	public void addReservation(HttpServletRequest request, @RequestBody ReservationSaveDto reservationDto) {
+	@GetMapping("title/{title}")
+	public List<ReservationDto> getReservationsByTitle(HttpServletRequest request, @PathVariable("title") String title) {
 		User loggedInUser = (User) request.getAttribute("WT_USER");
-		if (loggedInUser == null) {
-			return;
+		if (loggedInUser == null || !loggedInUser.isAdmin()) {
+			return null;
 		}
-		rs.addReservation(mapper.toEntity(reservationDto));
+		
+		return rs.getReservationsByTitle(title).stream().map(mapper::toDto).collect(Collectors.toList());
 	}
 	
+	@GetMapping("name/{first}/{last}")
+	public List<ReservationDto> getReservationsByName(HttpServletRequest request, @PathVariable("first") String firstName, @PathVariable("last") String lastName) {
+		User loggedInUser = (User) request.getAttribute("WT_USER");
+		if (loggedInUser == null || !loggedInUser.isAdmin()) {
+			return null;
+		}
+		
+		return rs.getReservationsByName(firstName, lastName).stream().map(mapper::toDto).collect(Collectors.toList());
+	}
+	
+	@PostMapping
+	public ResponseDto addReservation(HttpServletRequest request, @RequestBody ReservationSaveDto reservationDto) {
+		User loggedInUser = (User) request.getAttribute("WT_USER");
+		if (loggedInUser == null) {
+			return new ResponseDto("Invalid login");
+		}
+		rs.addReservation(mapper.toEntity(reservationDto));
+		return new ResponseDto();
+	}
+
 	@PostMapping("email")
 	public void addReservationByEmail(HttpServletRequest request, @RequestBody ReservationSaveDto reservationDto) {
 		rs.addReservation(mapper.toEntity(reservationDto));
@@ -112,6 +133,14 @@ public class ReservationController {
 		reservation.setId(id);
 		rs.updateReservation(reservation);
 	}
+	
+	//TODO
+//	@PutMapping("{id}/{copyId}")
+//	public void updateReservation(HttpServletRequest request, @PathVariable("id") long id, @PathVariable("copyId") long copyId, @RequestBody ReservationSaveDto reservationDto) {
+//		Reservation reservation = mapper.toEntity(reservationDto);
+//		reservation.setId(id);
+//		rs.updateReservation(reservation);
+//	}
 	
 	@DeleteMapping("{id}")
 	public void deleteReservation(HttpServletRequest request, @PathVariable("id") long id) {

@@ -2,6 +2,7 @@ package nl.workingtalent.backend.mapper;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -77,7 +78,11 @@ public class DtoMapper {
 	/* TODO: Book */
 	public Book toEntity(BookSaveDto b) {
 		if (b == null) return null;
-		return new Book();
+		Author author = as.findOraddAuthorByName(b.getAuthor(), 0);
+		List<Tag> tags = b.getTags().stream().map(ts::findOraddTagByName).collect(Collectors.toList());
+		return new Book(b.getTitle(),author,b.getDescription(), tags, b.getReleaseDate(), 
+				b.getIsbnNumber(), b.getPublisher(), b.getPageCount(), b.getRelatedCourses(), 
+				b.getFormat(), b.getInfo(), b.getRating(), b.getEdition(), b.getImageUrl());
 	}
 	
 	public CopyDto toDto(Copy copy) {

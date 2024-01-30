@@ -5,7 +5,7 @@ import java.util.List;
 
 public class BookSaveDto {
     private String title;
-    private long authorId;
+    private String author;
 
     private String description;
     private List<String> tags;
@@ -30,12 +30,12 @@ public class BookSaveDto {
         this.title = title;
     }
 
-    public long getAuthorId() {
-        return authorId;
+    public String getAuthor() {
+        return author;
     }
 
-    public void setAuthorId(long authorId) {
-        this.authorId = authorId;
+    public void setAuthor(String author) {
+        this.author = author;
     }
 
     public String getDescription() {
