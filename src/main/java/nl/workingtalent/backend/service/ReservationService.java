@@ -32,7 +32,7 @@ public class ReservationService {
 	}
     
     public List<Reservation> getReservationsByName(String firstName, String lastName) {
-		return rr.findByUserFirstNameAndUserLastNameOrderByStartDate(firstName, lastName);
+		return rr.findByUserFirstNameAndUserLastNameOrderByStartDate("%" + firstName + "%", "%" + lastName + "%");
 	}
     
     public Reservation addReservation(Reservation reservation) {

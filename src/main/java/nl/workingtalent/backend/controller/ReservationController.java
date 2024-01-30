@@ -143,11 +143,18 @@ public class ReservationController {
 		rs.addReservation(mapper.toEntity(reservationDto));
 	}
 	
+	//Return the product
 	@PutMapping("{id}")
-	public void updateReservation(HttpServletRequest request, @PathVariable("id") long id, @RequestBody ReservationSaveDto reservationDto) {
-		Reservation reservation = mapper.toEntity(reservationDto);
+	public ResponseDto updateReservation(HttpServletRequest request, @PathVariable("id") long id) {
+		Optional<Reservation> optionalReservation = rs.getReservationById(id);
+		Reservation reservation = optionalReservation.get();
 		reservation.setId(id);
+		reservation.setEndDate(LocalDate.now());
+		reservation.getCopy().setAvailable(true);
+		cs.updateCopy(reservation.getCopy());
+		reservation.setStatus(ReservationStatus.RETURNED);
 		rs.updateReservation(reservation);
+		return new ResponseDto();
 	}
 	
 	@PutMapping("{id}/{copyId}")
