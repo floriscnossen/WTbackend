@@ -42,7 +42,6 @@ public class UserService {
     
     public User login(String email, String password) {
     	Optional<User> optionalUser = ur.findByEmail(email);
-    	System.out.println(email);
     	if (optionalUser.isEmpty()) {
     		return null;
     	}

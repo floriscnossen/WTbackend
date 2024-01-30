@@ -13,4 +13,6 @@ import nl.workingtalent.backend.entity.User;
 @Repository
 public interface ReservationRepository extends JpaRepository<Reservation, Long> {
 	List<Reservation> findByUserIdOrderByStartDate(long id);
+	List<Reservation> findByBookTitleOrderByStartDate(String title);
+	List<Reservation> findByUserFirstNameAndUserLastNameOrderByStartDate(String firstName, String lastName);
 }
