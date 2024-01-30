@@ -28,7 +28,7 @@ public class ReservationService {
 	}
     
     public List<Reservation> getReservationsByTitle(String title) {
-		return rr.findByBookTitleOrderByStartDate(title);
+		return rr.findByBookTitleLikeOrderByStartDate("%" + title + "%");
 	}
     
     public List<Reservation> getReservationsByName(String firstName, String lastName) {
