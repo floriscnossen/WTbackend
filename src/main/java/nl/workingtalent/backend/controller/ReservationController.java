@@ -22,9 +22,11 @@ import nl.workingtalent.backend.dto.ReservationDto;
 import nl.workingtalent.backend.dto.ReservationSaveDto;
 import nl.workingtalent.backend.dto.ResponseDto;
 import nl.workingtalent.backend.entity.Book;
+import nl.workingtalent.backend.entity.Copy;
 import nl.workingtalent.backend.entity.Reservation;
 import nl.workingtalent.backend.entity.User;
 import nl.workingtalent.backend.mapper.DtoMapper;
+import nl.workingtalent.backend.service.CopyService;
 import nl.workingtalent.backend.service.ReservationService;
 
 @RestController
@@ -33,6 +35,9 @@ import nl.workingtalent.backend.service.ReservationService;
 public class ReservationController {
 	@Autowired
 	ReservationService rs;
+
+	@Autowired
+	CopyService cs;
 	
 	@Autowired
 	DtoMapper mapper;
@@ -134,13 +139,25 @@ public class ReservationController {
 		rs.updateReservation(reservation);
 	}
 	
-	//TODO
-//	@PutMapping("{id}/{copyId}")
-//	public void updateReservation(HttpServletRequest request, @PathVariable("id") long id, @PathVariable("copyId") long copyId, @RequestBody ReservationSaveDto reservationDto) {
-//		Reservation reservation = mapper.toEntity(reservationDto);
-//		reservation.setId(id);
-//		rs.updateReservation(reservation);
-//	}
+	@PutMapping("{id}/{copyId}")
+	public ResponseDto updateReservation(HttpServletRequest request, @PathVariable("id") long id, @PathVariable("copyId") long copyId) {
+		Optional<Reservation> optionalReservation = rs.getReservationById(id);
+		if (optionalReservation.isEmpty()) {
+			return new ResponseDto("Invalid reservation id");
+		}
+		Reservation reservation = optionalReservation.get();
+		Optional<Copy> optionalCopy = cs.getCopyById(copyId);
+		if (optionalCopy.isEmpty()) {
+			return new ResponseDto("Invalid copy id");
+		}
+		Copy copy = optionalCopy.get();
+		if (copy.getBook().getId() != reservation.getBook().getId()) {
+			return new ResponseDto("Copy is from wrong book");
+		}
+		reservation.setCopy(copy);
+		rs.updateReservation(reservation);
+		return new ResponseDto();
+	}
 	
 	@DeleteMapping("{id}")
 	public void deleteReservation(HttpServletRequest request, @PathVariable("id") long id) {
