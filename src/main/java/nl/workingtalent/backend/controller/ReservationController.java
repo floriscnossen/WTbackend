@@ -100,6 +100,7 @@ public class ReservationController {
 	
 	@GetMapping("title/{title}")
 	public List<ReservationDto> getReservationsByTitle(HttpServletRequest request, @PathVariable("title") String title) {
+		System.out.println(title);
 		User loggedInUser = (User) request.getAttribute("WT_USER");
 		if (loggedInUser == null || !loggedInUser.isAdmin()) {
 			return null;
