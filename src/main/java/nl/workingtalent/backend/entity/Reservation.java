@@ -8,6 +8,7 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import jakarta.persistence.*;
 import nl.workingtalent.backend.dto.ReservationDto;
+import nl.workingtalent.backend.status.ReservationStatus;
 
 @Entity
 public class Reservation {
@@ -19,23 +20,41 @@ public class Reservation {
 	private Copy copy;
 
 	@ManyToOne
+	private Book book;
+
+	@ManyToOne
 	@JoinColumn(name = "user_id", nullable = false)
 	private User user;
 
 	@Column(nullable = false, length = 100)
 	private LocalDate startDate;
 
-	@Column(nullable = true, length = 100)
 	private LocalDate endDate;
 	
-	@Column(nullable = true, length = 100)
-	private String status;
+	@Enumerated(EnumType.ORDINAL)
+	private ReservationStatus status;
 	
 	//Constructors
 	public Reservation() {}
 
-	public Reservation(Copy copy, User user, LocalDate startDate, LocalDate endDate, String status) {
+	public Reservation(User user, LocalDate startDate, LocalDate endDate, ReservationStatus status) {
+		this.user = user;
+		this.startDate = startDate;
+		this.endDate = endDate;
+		this.status = status;
+	}
+
+	public Reservation(Copy copy, User user, LocalDate startDate, LocalDate endDate, ReservationStatus status) {
 		this.copy = copy;
+		this.user = user;
+		this.startDate = startDate;
+		this.endDate = endDate;
+		this.status = status;
+	}
+
+	public Reservation(Copy copy, Book book, User user, LocalDate startDate, LocalDate endDate, ReservationStatus status) {
+		this.copy = copy;
+		this.book = book;
 		this.user = user;
 		this.startDate = startDate;
 		this.endDate = endDate;
@@ -83,24 +102,32 @@ public class Reservation {
 		this.endDate = endDate;
 	}
 
-	public String getStatus() {
+	public ReservationStatus getStatus() {
 		return status;
 	}
 
-	public void setStatus(String status) {
+	public void setStatus(ReservationStatus status) {
 		this.status = status;
 	}
 	
-	//Methods
-	
-	public ReservationDto toDto() {
-		ReservationDto r = new ReservationDto();
-		r.setId(id);
-		r.setCopy(copy.toDto());
-		r.setUser(user.toDto());
-		r.setStartDate(startDate);
-		r.setStatus(status);
-		return r;
+	public Book getBook() {
+		return book;
 	}
+
+	public void setBook(Book book) {
+		this.book = book;
+	}
+	
+	//Methods
+
+//	public ReservationDto toDto() {
+//		ReservationDto r = new ReservationDto();
+//		r.setId(id);
+//		r.setCopy(copy.toDto());
+//		r.setUser(user.toDto());
+//		r.setStartDate(startDate);
+//		r.setStatus(status);
+//		return r;
+//	}
 	
 }

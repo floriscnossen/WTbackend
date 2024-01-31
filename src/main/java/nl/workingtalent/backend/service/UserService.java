@@ -3,9 +3,11 @@ package nl.workingtalent.backend.service;
 import java.util.List;
 import java.util.Optional;
 
+import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import at.favre.lib.crypto.bcrypt.BCrypt;
 import nl.workingtalent.backend.entity.User;
 import nl.workingtalent.backend.repository.UserRepository;
 
@@ -36,5 +38,20 @@ public class UserService {
     
     public void deleteUser(long id) {
     	ur.deleteById(id);
+    }
+    
+    public User login(String email, String password) {
+    	Optional<User> optionalUser = ur.findByEmail(email);
+    	if (optionalUser.isEmpty()) {
+    		return null;
+    	}
+    	User user = optionalUser.get();
+		if (!BCrypt.verifyer().verify(password.toCharArray(), user.getPassword()).verified) {
+    		System.out.println(password + "Wrong password" + user.getPassword());
+    		return null;
+		}
+		user.setToken(RandomStringUtils.random(100, true, true));
+		user = ur.save(user);
+		return user;
     }
 }

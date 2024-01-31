@@ -39,6 +39,8 @@ public class User {
 
 	@OneToMany(mappedBy = "user")
 	private List<Reservation> reservations;
+	
+	private String token;
 
 	public User() {}
 
@@ -105,6 +107,14 @@ public class User {
 
 	public void setReservations(List<Reservation> reservations) {
 		this.reservations = reservations;
+	}
+
+	public String getToken() {
+		return token;
+	}
+
+	public void setToken(String token) {
+		this.token = token;
 	}
 	
 	//Methods

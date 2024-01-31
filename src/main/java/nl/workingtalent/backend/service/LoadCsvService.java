@@ -16,6 +16,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.opencsv.CSVReader;
 
+import at.favre.lib.crypto.bcrypt.BCrypt;
 import jakarta.annotation.PostConstruct;
 import nl.workingtalent.backend.entity.Author;
 import nl.workingtalent.backend.entity.Book;
@@ -28,6 +29,7 @@ import nl.workingtalent.backend.repository.BookRepository;
 import nl.workingtalent.backend.repository.CopyRepository;
 import nl.workingtalent.backend.repository.ReservationRepository;
 import nl.workingtalent.backend.repository.TagRepository;
+import nl.workingtalent.backend.status.ReservationStatus;
 
 @Service
 public class LoadCsvService {
@@ -58,18 +60,25 @@ public class LoadCsvService {
 
     @PostConstruct
     public void init() {
-    	loadCsv();
-		User admin = new User("Admin", "", "admin@admin.nl", "admin", true);
+
+    	if (br.count() < 50) {
+    		loadCsv();
+    	}
+    	String password1 = BCrypt.withDefaults().hashToString(10, "admin".toCharArray());
+		User admin = new User("Admin", "", "admin@admin.nl", password1, true);
 		admin.setId(1);
 		us.addUser(admin);
-		User trainee = new User("Trainee", "", "trainee@trainee.nl", "trainee", false);
+    	String password2 = BCrypt.withDefaults().hashToString(10, "trainee".toCharArray());
+		User trainee = new User("Trainee", "", "trainee@trainee.nl", password2, false);
 		trainee.setId(2);
 		us.addUser(trainee);
 		
-		Reservation r1 = new Reservation(cr.findAll().get(0), trainee, LocalDate.now(), null, "");
+		Copy c1 = cr.findAll().get(0);
+		Reservation r1 = new Reservation(c1, c1.getBook(), trainee, LocalDate.now(), null, ReservationStatus.LOANED);
 		r1.setId(1);
 		rr.save(r1);
-		Reservation r2 = new Reservation(cr.findAll().get(1), admin, LocalDate.now(), null, "");
+		Copy c2 = cr.findAll().get(1);
+		Reservation r2 = new Reservation(c2, c2.getBook(), admin, LocalDate.now(), null, ReservationStatus.LOANED);
 		r2.setId(2);
 		rr.save(r2);
     }
