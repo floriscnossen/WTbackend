@@ -1,5 +1,6 @@
 package nl.workingtalent.backend.repository;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -11,4 +12,6 @@ import nl.workingtalent.backend.entity.Author;
 @Repository
 public interface AuthorRepository extends JpaRepository<Author, Long> {
 	Optional<Author> findFirstByName(String name);
+
+	List<Author> findByName(String name);
 }
