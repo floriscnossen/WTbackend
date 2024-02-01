@@ -90,7 +90,6 @@ public class ReservationController {
 			return null;
 		}
 		
-		List<ReservationDto> reservations;
 		if (loggedInUser.isAdmin()) {
 			return rs.getReservationsByStatus(status).stream().map(mapper::toDto).collect(Collectors.toList());
 		} 
@@ -153,27 +152,36 @@ public class ReservationController {
 		if (loggedInUser == null) {
 			return new ResponseDto("Invalid login");
 		}
+		
 		Reservation reservation = mapper.toEntity(reservationDto);
+		if (reservation.getUser() == null) {
+			return new ResponseDto("Invalid user");
+		}
+		if (!loggedInUser.isAdmin() && loggedInUser.getId() != reservation.getUser().getId()) {
+			return new ResponseDto("No permission to reserve books for other users");
+		}
 		if (reservation.getCopy() == null) {
 			reservation.setStatus(ReservationStatus.RESERVED);
 		}
 		else {
 			reservation.setStatus(ReservationStatus.LOANED);
-			reservation.getCopy().setAvailable(false);
-			cs.updateCopy(reservation.getCopy());
+//			reservation.getCopy().setAvailable(false);
+//			cs.updateCopy(reservation.getCopy());
 		}
-		rs.addReservation(reservation);
+		if (rs.addReservation(reservation) == null) {
+			return new ResponseDto("Copy is not available");
+		}
 		return new ResponseDto();
 	}
 
-	@PostMapping("email")
-	public void addReservationByEmail(HttpServletRequest request, @RequestBody ReservationSaveDto reservationDto) {
-		rs.addReservation(mapper.toEntity(reservationDto));
-	}
+//	@PostMapping("email")
+//	public void addReservationByEmail(HttpServletRequest request, @RequestBody ReservationSaveDto reservationDto) {
+//		rs.addReservation(mapper.toEntity(reservationDto));
+//	}
 	
 	//Return the product
 	@PutMapping("{id}")
-	public ResponseDto updateReservation(HttpServletRequest request, @PathVariable("id") long id) {
+	public ResponseDto returnReservation(HttpServletRequest request, @PathVariable("id") long id) {
 		Optional<Reservation> optionalReservation = rs.getReservationById(id);
 		Reservation reservation = optionalReservation.get();
 		reservation.setId(id);
@@ -185,6 +193,7 @@ public class ReservationController {
 		return new ResponseDto();
 	}
 	
+	// Loan reservation
 	@PutMapping("{id}/{copyId}")
 	public ResponseDto updateReservation(HttpServletRequest request, @PathVariable("id") long id, @PathVariable("copyId") long copyId) {
 		Optional<Reservation> optionalReservation = rs.getReservationById(id);
@@ -200,11 +209,19 @@ public class ReservationController {
 		if (copy.getBook().getId() != reservation.getBook().getId()) {
 			return new ResponseDto("Copy is from wrong book");
 		}
-		copy.setAvailable(false);
-		cs.updateCopy(copy);
+		
+//		if (!copy.isAvailable()) {
+//			return new ResponseDto("Copy is not available");
+//		}
+		
+//		copy.setAvailable(false);
+//		cs.updateCopy(copy);
 		reservation.setCopy(copy);
 		reservation.setStatus(ReservationStatus.LOANED);
 		rs.updateReservation(reservation);
+		if (rs.updateReservation(reservation) == null) {
+			return new ResponseDto("Copy is not available");
+		}
 		return new ResponseDto();
 	}
 	

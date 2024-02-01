@@ -7,6 +7,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -60,25 +61,41 @@ public class LoadCsvService {
 
     @PostConstruct
     public void init() {
-
     	if (br.count() < 50) {
     		loadCsv();
     	}
-    	String password1 = BCrypt.withDefaults().hashToString(10, "admin".toCharArray());
-		User admin = new User("Admin", "", "admin@admin.nl", password1, true);
-		admin.setId(1);
-		us.addUser(admin);
-    	String password2 = BCrypt.withDefaults().hashToString(10, "trainee".toCharArray());
-		User trainee = new User("Trainee", "", "trainee@trainee.nl", password2, false);
-		trainee.setId(2);
-		us.addUser(trainee);
+    	
+    	// Create test users
+    	User admin;
+    	Optional<User> optionalAdmin = us.getUserByEmail("admin@admin.nl");
+    	if (optionalAdmin.isEmpty()) {
+        	String password1 = BCrypt.withDefaults().hashToString(10, "admin".toCharArray());
+    		admin = new User("Admin", "", "admin@admin.nl", password1, true);
+    		us.addUser(admin);
+    	}
+    	else {
+    		admin = optionalAdmin.get();
+    	}
+    	
+    	User trainee;
+    	Optional<User> optionalTrainee = us.getUserByEmail("trainee@trainee.nl");
+    	if (optionalTrainee.isEmpty()) {
+	    	String password2 = BCrypt.withDefaults().hashToString(10, "trainee".toCharArray());
+			trainee = new User("Trainee", "", "trainee@trainee.nl", password2, false);
+			trainee.setId(2);
+			us.addUser(trainee);
+    	}
+    	else {
+    		trainee = optionalTrainee.get();
+    	}
 		
+    	// Create test reservations
 		Copy c1 = cr.findAll().get(0);
-		Reservation r1 = new Reservation(c1, c1.getBook(), trainee, LocalDate.now(), null, ReservationStatus.LOANED);
+		Reservation r1 = new Reservation(c1, c1.getBook(), trainee, LocalDate.now().minusDays(2), LocalDate.now().minusDays(1), ReservationStatus.RETURNED);
 		r1.setId(1);
 		rr.save(r1);
 		Copy c2 = cr.findAll().get(1);
-		Reservation r2 = new Reservation(c2, c2.getBook(), admin, LocalDate.now(), null, ReservationStatus.LOANED);
+		Reservation r2 = new Reservation(c2, c2.getBook(), admin, LocalDate.now().minusDays(2), LocalDate.now().minusDays(1), ReservationStatus.RETURNED);
 		r2.setId(2);
 		rr.save(r2);
     }
