@@ -60,6 +60,7 @@ public class LoadCsvService {
 
     @PostConstruct
     public void init() {
+
     	if (br.count() < 50) {
     		loadCsv();
     	}

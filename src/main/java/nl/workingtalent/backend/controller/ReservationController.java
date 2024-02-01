@@ -69,6 +69,34 @@ public class ReservationController {
 		return reservations;
 	}
 	
+	@GetMapping("reserved")
+	public List<ReservationDto> getReservationsReserved(HttpServletRequest request) {
+		return getReservationsByStatus(request, ReservationStatus.RESERVED);
+	}
+	
+	@GetMapping("loaned")
+	public List<ReservationDto> getReservationsLoaned(HttpServletRequest request) {
+		return getReservationsByStatus(request, ReservationStatus.LOANED);
+	}
+	
+	@GetMapping("returned")
+	public List<ReservationDto> getReservationsReturned(HttpServletRequest request) {
+		return getReservationsByStatus(request, ReservationStatus.RETURNED);
+	}
+	
+	public List<ReservationDto> getReservationsByStatus(HttpServletRequest request, ReservationStatus status) {
+		User loggedInUser = (User) request.getAttribute("WT_USER");
+		if (loggedInUser == null) {
+			return null;
+		}
+		
+		List<ReservationDto> reservations;
+		if (loggedInUser.isAdmin()) {
+			return rs.getReservationsByStatus(status).stream().map(mapper::toDto).collect(Collectors.toList());
+		} 
+		return rs.getReservationsByUserAndStatus(loggedInUser.getId(), status).stream().map(mapper::toDto).collect(Collectors.toList());
+	}
+	
 	@GetMapping("{id}")
 	public Optional<ReservationDto> getReservationById(HttpServletRequest request, @PathVariable("id") long id) {
 		User loggedInUser = (User) request.getAttribute("WT_USER");
