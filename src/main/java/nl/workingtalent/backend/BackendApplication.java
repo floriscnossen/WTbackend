@@ -14,6 +14,7 @@ import nl.workingtalent.backend.repository.AuthorRepository;
 import nl.workingtalent.backend.repository.BookRepository;
 import nl.workingtalent.backend.repository.TagRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.kafka.annotation.TopicPartition;
 //import org.springframework.kafka.annotation.KafkaListener;
 
 import java.io.IOException;
@@ -37,8 +38,11 @@ public class BackendApplication {
 	@Autowired
 	TagRepository tr;
 
-	@KafkaListener(id = "books", topics = "open_library_books")
+	@KafkaListener(id = "books", topicPartitions = {
+			@TopicPartition(topic= "open_library_books", partitions = "0") })
 	public void listen(String message) throws JsonProcessingException, IOException {
+
+		System.out.println(message);
 
 //		Make JSON parser object
 		ObjectMapper objectMapper = new ObjectMapper();
@@ -49,7 +53,6 @@ public class BackendApplication {
 			return;
 		}
 
-		System.out.println(message);
 
 //		Parse author and save
 		Author author = new Author();
