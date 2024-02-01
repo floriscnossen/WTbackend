@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import nl.workingtalent.backend.entity.Reservation;
 import nl.workingtalent.backend.entity.User;
 import nl.workingtalent.backend.repository.ReservationRepository;
+import nl.workingtalent.backend.status.ReservationStatus;
 
 @Service
 public class ReservationService {
@@ -19,13 +20,23 @@ public class ReservationService {
 		return rr.findAll();
 	}
     
+    public List<Reservation> getReservationsByStatus(ReservationStatus status) {
+		return rr.findByStatusOrderByStartDateDesc(status);
+	}
+    
     public Optional<Reservation> getReservationById(long id) {
 		return rr.findById(id);
 	}
     
+    
     public List<Reservation> getReservationsByUser(long id) {
 		return rr.findByUserIdOrderByStartDate(id);
 	}
+    
+    public List<Reservation> getReservationsByUserAndStatus(long id, ReservationStatus status) {
+		return rr.findByUserIdAndStatusOrderByStartDateDesc(id, status);
+	}
+    
     
     public List<Reservation> getReservationsByTitle(String title) {
 		return rr.findByBookTitleLikeOrderByStartDate("%" + title + "%");
