@@ -83,7 +83,7 @@ public class DtoMapper {
 		List<Tag> tags = b.getTags().stream().map(ts::findOraddTagByName).collect(Collectors.toList());
 		return new Book(b.getTitle(),author,b.getDescription(), tags, b.getReleaseDate(), 
 				b.getIsbnNumber(), b.getPublisher(), b.getPageCount(), b.getRelatedCourses(), 
-				b.getFormat(), b.getInfo(), b.getRating(), b.getEdition(), b.getImageUrl());
+				b.getFormat(), b.getInfo(), b.getRating(), b.getEdition(), b.getImageUrl(), "Manual input");
 	}
 	
 	public CopyDto toDto(Copy copy) {
